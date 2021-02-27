@@ -311,7 +311,7 @@ class SaleOrderLine(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
     
-    agent = fields.Many2one('res.partner', string="Agent", domain="[('is_agency','=',False),('company_type','=','person')]")
+    agent = fields.Many2one('res.partner', string="Agent", domain="[('is_agency','=',False)]")
     sizes = fields.Many2one('res.sizing', string="Agency", domain="[('agent','=',agent)]")
     psnum = fields.Char(string='PSNUM')
     size_front = fields.Selection([
