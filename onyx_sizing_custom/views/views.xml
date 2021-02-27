@@ -1,0 +1,301 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+    
+    <record model="ir.ui.view" id="size_search_view">
+        <field name="name">res.sizing.search</field>
+        <field name="model">res.sizing</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="agent"/>
+                <field name="agency"/>
+            </search>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="size_tree_view">
+            <field name="name">res.sizing.tree</field>
+            <field name="model">res.sizing</field>
+            <field name="arch" type="xml">
+                <tree string="Sizing Tree">
+                    <field name="name"/>
+                	<field name="agent"/>
+                	<field name="agency"/>
+                	<field name="size_front"/>
+                	<field name="size_front_length"/>
+                	<field name="size_width"/>
+                	<field name="size_back"/>
+                	<field name="size_back_length"/>
+                </tree>
+            </field>
+    </record>
+    
+    
+   	<record id="view_measure_form" model="ir.ui.view">
+        <field name="name">measure.view.form</field>
+        <field name="model">res.sizing</field>
+        <field name="arch" type="xml">
+			<form>
+			    <header/>
+			    <sheet string="Measurements">
+			        <div class="oe_title">
+			            <h1>
+							<field name="name" required="1" placeholder="Name..."/>
+			            </h1>
+			        </div>
+			        <group>
+			            <group name="agent_info_left">
+							<field name="agency" domain="[['is_agency','=',True]]" string="Agency"/>
+							<field name="agent" string="Agent"/>
+							<field name="sale_representative" string="Sale Rep"/>
+						</group>
+			            <group name="agent_info_right">
+							<field name="date" string="Date"/>
+							<field name="height" string="Height"/>
+							<field name="weight"/>
+						</group>
+			        </group>
+					<p>SIZING PROCEDURE FOR USING TAPE MEASURE: Measure and determine the size in the sequences shown below, then enter measurements in the provided boxes. For best results, take all measurements while the officer if wearing his regular duty uniform and belt.</p>
+			        <notebook>
+			            <page string="Chest" name="size_chest">
+			              <group>
+			                <field name="chest_measure"/>
+			              </group>
+			              <group>
+			                <p>(Round to the nearest inch). Measure under the arms, across the shoulder blades and around fullest part of the chest.</p>
+			              </group>
+			            </page>
+			            <page string="Abdomen" name="size_abdomen">
+			              <group>
+			                <field name="abdomen_measure" string="Measure"/>
+			              </group>
+			              <group>
+			                <p>(Round to the nearest inch). Measure around the back and across the stomach abovve the duty belt at the widest section of the abdomen. DO NOT INCLUDE OVERLAP.</p>
+			              </group>
+			            </page>
+			            <page string="Length Front" name="size_length_front">
+			              <group>
+			                <field name="length_front_measure" string="Measure"/>
+			              </group>
+			              <group>
+			                <p>(Round to the nearest inch). Measure from the sternum notch to the top of the duty belt while in seated position.</p>
+			              </group>
+			            </page>
+			            <page string="Length Back" name="size_length_back">
+			              <group>
+			                <field name="length_back_measure" string="Measure"/>
+			              </group>
+			              <group>
+			                <p>(Round to the nearest inch). Measure from the sternum notch to the top of the duty belt while standing.</p>
+			              </group>
+			            </page>
+			            <page string="Info" name="size_info">
+			              <group name="size_info">
+			                <group name="size_info__left" string="Information">
+			                  <field name="inf_vest_model" string="Vest model"/>
+			                  <field name="inf_color" string="Color"/>
+			                  <field name="inf_duty_belt_on" string="Duty Belt On"/>
+			                  <field name="inf_duty_pant_on" string="Duty Pants On"/>
+			                  <field name="inf_overlap" string="Overlap"/>
+			                </group>
+			                <group name="size_info_right" string="Size">
+			                  <field name="size_front" string="Size Front"/>
+			                  <field name="size_front_length" string="Front Length"/>
+			                  <field name="size_width" string="Width"/>
+			                  <field name="size_back" string="Size Back"/>
+			                  <field name="size_back_length" string="Front Length"/>
+			                </group>
+			              </group>
+			              <group name="size_info_notes">
+			                <field name="deviations" string="Deviations requested by officer"/>
+			                <field name="additional_notes" string="Additional Notes"/>
+			                <field widget="signature" name="signature" string="Officer Signature"/>
+			              </group>
+			            </page>
+			          </notebook>
+			    </sheet>
+			    <div class="oe_chatter" name="oe_chatter">
+			        <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+			    </div>
+			</form>
+         </field>
+   	</record>
+   	
+   	<record model="ir.actions.act_window" id="size_list_action">
+            <field name="name">Sizing</field>
+            <field name="res_model">res.sizing</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first measurement for an agent
+                </p>
+            </field>
+    </record>
+    
+    <menuitem id="sizing_menu" name="Sizing" parent="sale.sale_menu_root"/>
+        
+    <menuitem id="measures_menu" name="Measures" parent="sizing_menu" action="size_list_action"/>
+    
+    <record id="view_custom_partner_form" model="ir.ui.view">
+        <field name="name">custom.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+	    <field name="arch" type="xml">
+	        <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='type']" position="before">
+        		<field name="is_agency"/>
+	        </xpath>
+	        <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='vat']" position="after">
+	        	<field name="cod_logistic_operator" string="Cod Logistic Operator"/>
+	        	<field name="logistic_operator_name" string="Logistic Operator Name"/>
+	        </xpath>
+	        <!-- <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='contact_addresses']/field[@name='child_ids']/form[1]/sheet[1]/group[1]/group[2]/field[@name='mobile']" position="after">-->
+	        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='child_ids']/form[1]/sheet[1]/group[1]/group[2]/field[@name='mobile']" position="after">
+	        	<field name="is_agency" string="It's an Agency"/>
+	        </xpath>
+	        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[2]" position="after">
+	        	<page name="res_sizing" string="Sizing" attrs="{'invisible': [('is_agency','=', True)]}">
+	        		<field name="sizes" colspan="4" nolabel="1" context="{'default_agent': active_id,'default_agency': parent_id}">
+                        <tree string="Measures" editable="bottom">
+                            <field name="name" string="Measures"/>
+    						<field name="agent" readonly='True'/>
+    						<field name="agency" domain="[['is_agency','=',True]]" readonly='True'/>
+    						<field name="size_front"/>
+    						<field name="size_front_length"/>
+    						<field name="size_width"/>
+    						<field name="size_back"/>
+    						<field name="size_back_length"/>
+                        </tree>
+                        <form>
+						    <sheet string="Measurements">
+						        <div class="oe_title">
+						            <h1>
+										<field name="name" required="1" placeholder="Name..."/>
+						            </h1>
+						        </div>
+						        <group>
+						            <group name="agent_info_left">
+										<field name="agency" domain="[['is_agency','=',True]]" string="Agency"/>
+										<field name="agent" string="Agent"/>
+										<field name="sale_representative" string="Sale Rep"/>
+									</group>
+						            <group name="agent_info_right">
+										<field name="date" string="Date"/>
+										<field name="height" string="Height"/>
+										<field name="weight"/>
+									</group>
+						        </group>
+								<p>SIZING PROCEDURE FOR USING TAPE MEASURE: Measure and determine the size in the sequences shown below, then enter measurements in the provided boxes. For best results, take all measurements while the officer if wearing his regular duty uniform and belt.</p>
+						        <notebook>
+						            <page string="Chest" name="size_chest">
+						              <group>
+						                <field name="chest_measure"/>
+						              </group>
+						              <group>
+						                <p>(Round to the nearest inch). Measure under the arms, across the shoulder blades and around fullest part of the chest.</p>
+						              </group>
+						            </page>
+						            <page string="Abdomen" name="size_abdomen">
+						              <group>
+						                <field name="abdomen_measure" string="Measure"/>
+						              </group>
+						              <group>
+						                <p>(Round to the nearest inch). Measure around the back and across the stomach abovve the duty belt at the widest section of the abdomen. DO NOT INCLUDE OVERLAP.</p>
+						              </group>
+						            </page>
+						            <page string="Length Front" name="size_length_front">
+						              <group>
+						                <field name="length_front_measure" string="Measure"/>
+						              </group>
+						              <group>
+						                <p>(Round to the nearest inch). Measure from the sternum notch to the top of the duty belt while in seated position.</p>
+						              </group>
+						            </page>
+						            <page string="Length Back" name="size_length_back">
+						              <group>
+						                <field name="length_back_measure" string="Measure"/>
+						              </group>
+						              <group>
+						                <p>(Round to the nearest inch). Measure from the sternum notch to the top of the duty belt while standing.</p>
+						              </group>
+						            </page>
+						            <page string="Info" name="size_info">
+						              <group name="size_info">
+						                <group name="size_info__left" string="Information">
+						                  <field name="inf_vest_model" string="Vest model"/>
+						                  <field name="inf_color" string="Color"/>
+						                  <field name="inf_duty_belt_on" string="Duty Belt On"/>
+						                  <field name="inf_duty_pant_on" string="Duty Pants On"/>
+						                  <field name="inf_overlap" string="Overlap"/>
+						                </group>
+						                <group name="size_info_right" string="Size">
+						                  <field name="size_front" string="Size Front"/>
+						                  <field name="size_front_length" string="Front Length"/>
+						                  <field name="size_width" string="Width"/>
+						                  <field name="size_back" string="Size Back"/>
+						                  <field name="size_back_length" string="Front Length"/>
+						                </group>
+						              </group>
+						              <group name="size_info_notes">
+						                <field name="deviations" string="Deviations requested by officer"/>
+						                <field name="additional_notes" string="Additional Notes"/>
+						                <field widget="signature" name="signature" string="Officer Signature"/>
+						              </group>
+						            </page>
+						          </notebook>
+						    </sheet>
+						</form>
+                    </field>
+	        	</page>
+	        </xpath>
+	    </field>
+    </record>
+    
+    <record id="view_custom_sale_order_form" model="ir.ui.view">
+        <field name="name">custom.sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+	    <field name="arch" type="xml">
+	    	<xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='name']" position="after">
+	    		<field name="agent" string="Agent"/>
+	    		<field name="sizes" string="Sizing"/>
+	    		<field name="psnum" string="PSNUM"/>
+	    		<field name="size_front" string="FS" width="10"/>
+				<field name="size_front_length" string="FL" width="10"/>
+				<field name="size_width" string="W" width="10"/>
+				<field name="size_back" string="BS" width="10"/>
+				<field name="size_back_length" string="BL" width="10"/>
+	    	</xpath>
+	    	<xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='qty_delivered']" position="replace">
+	    		<field name="qty_delivered" string="Delivered" invisible="True"/>
+	    	</xpath>
+	    	<xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='qty_invoiced']" position="replace">
+	    		<field name="qty_invoiced" invisible="True"/>
+	    	</xpath>
+	    	<xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='tax_id']" position="replace">
+	    		<field name="tax_id" invisible="True"/>
+	    	</xpath>
+	    </field>
+	</record>
+	
+	<record id="view_custom_account_move_form" model="ir.ui.view">
+        <field name="name">custom.account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+	    <field name="arch" type="xml">
+	    	<xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='invoice_line_ids']/tree[1]/field[@name='name']" position="after">
+	    		<field name="agent" string="Agent"/>
+	    		<field name="sizes" string="Sizing"/>
+	    		<field name="psnum" string="PSNUM"/>
+	    		<field name="size_front" string="SF" width="10"/>
+				<field name="size_front_length" string="FL" width="10"/>
+				<field name="size_width" string="W" width="10"/>
+				<field name="size_back" string="SB" width="10"/>
+				<field name="size_back_length" string="BL" width="10"/>
+	    	</xpath>
+	    </field>
+	</record>
+   	
+   </data>
+</odoo>
