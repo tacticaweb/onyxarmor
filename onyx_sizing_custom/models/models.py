@@ -116,13 +116,6 @@ class ResSizing(models.Model):
         for test in self:
             test.name = str(test.agent.name) + ' ' + str(test.agency.name) + ' ' + str(test.date) 
             
-    @api.model
-    def create(self, vals):
-        message = "Tallaje registrado con el siguiente codigo:" + (str(vals['size_front']) + str(vals['size_front_length']) +str(vals['size_width']) +str(vals['size_back']) +str(vals['size_back_length']))
-        self.message_post(body=message)
-        res = super(ResSizing,self.with_context(mail_create_nosubscribe=True)).create(vals)
-        return res
-    
     def write(self, vals):
         print ("vals: ", vals)
         tallaje = ""
