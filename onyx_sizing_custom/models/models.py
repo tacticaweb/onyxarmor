@@ -462,7 +462,7 @@ class StockRule(models.Model):
             'date': date_expected,
             'date_expected': date_expected,
             'propagate_cancel': self.propagate_cancel,
-            'propagate_date': self.propagate_date,
+            'propagate_date': self.commitment_date,
             'propagate_date_minimum_delta': self.propagate_date_minimum_delta,
             'description_picking': name,
             'priority': values.get('priority', "1"),
