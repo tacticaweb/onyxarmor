@@ -376,7 +376,7 @@ class ProcurementGroup(models.Model):
     _inherit = 'procurement.group'
     
     @api.model
-    def run(self, procurements):
+    def run(self, procurements, raise_user_error=True):
         """ Method used in a procurement case. The purpose is to supply the
         product passed as argument in the location also given as an argument.
         In order to be able to find a suitable location that provide the product
