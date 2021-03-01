@@ -464,7 +464,6 @@ class StockRule(models.Model):
             'propagate_cancel': self.propagate_cancel,
             'description_picking': name,
             'priority': values.get('priority', "1"),
-            'delay_alert': self.delay_alert,
         }
         for field in self._get_custom_move_fields():
             if field in values:
