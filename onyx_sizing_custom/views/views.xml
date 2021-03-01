@@ -144,15 +144,11 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
 	    <field name="arch" type="xml">
 	        <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='type']" position="before">
-        		<field name="is_agency"/>
+        		<field name="is_agency" string="It's an Agency"/>
 	        </xpath>
 	        <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='vat']" position="after">
 	        	<field name="cod_logistic_operator" string="Cod Logistic Operator"/>
 	        	<field name="logistic_operator_name" string="Logistic Operator Name"/>
-	        </xpath>
-	        <!-- <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='contact_addresses']/field[@name='child_ids']/form[1]/sheet[1]/group[1]/group[2]/field[@name='mobile']" position="after">-->
-	        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='child_ids']/form[1]/sheet[1]/group[1]/group[2]/field[@name='mobile']" position="after">
-	        	<field name="is_agency" string="It's an Agency"/>
 	        </xpath>
 	        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[2]" position="after">
 	        	<page name="res_sizing" string="Sizing" attrs="{'invisible': [('is_agency','=', True)]}">
@@ -261,11 +257,11 @@
 	    		<field name="agent" string="Agent"/>
 	    		<field name="sizes" string="Sizing"/>
 	    		<field name="psnum" string="PSNUM"/>
-	    		<field name="size_front" string="FS" width="10"/>
-				<field name="size_front_length" string="FL" width="10"/>
-				<field name="size_width" string="W" width="10"/>
-				<field name="size_back" string="BS" width="10"/>
-				<field name="size_back_length" string="BL" width="10"/>
+	    		<field name="size_front" string="FS" width="0.7%"/>
+				<field name="size_front_length" string="FL" width="0.7%"/>
+				<field name="size_width" string="W" width="0.7%"/>
+				<field name="size_back" string="BS" width="0.7%"/>
+				<field name="size_back_length" string="BL" width="0.7%"/>
 	    	</xpath>
 	    	<xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='qty_delivered']" position="replace">
 	    		<field name="qty_delivered" string="Delivered" invisible="True"/>
@@ -288,11 +284,11 @@
 	    		<field name="agent" string="Agent"/>
 	    		<field name="sizes" string="Sizing"/>
 	    		<field name="psnum" string="PSNUM"/>
-	    		<field name="size_front" string="SF" width="10"/>
-				<field name="size_front_length" string="FL" width="10"/>
-				<field name="size_width" string="W" width="10"/>
-				<field name="size_back" string="SB" width="10"/>
-				<field name="size_back_length" string="BL" width="10"/>
+	    		<field name="size_front" string="F" width="0.7%"/>
+				<field name="size_front_length" string="FL" width="0.7%"/>
+				<field name="size_width" string="W" width="0.7%"/>
+				<field name="size_back" string="B" width="0.7%"/>
+				<field name="size_back_length" string="BL" width="0.7%"/>
 	    	</xpath>
 	    </field>
 	</record>

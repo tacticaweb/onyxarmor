@@ -297,7 +297,7 @@ class SaleOrderLine(models.Model):
                 line.order_id.partner_shipping_id.property_stock_customer,
                 line_name, line.order_id.name, line.order_id.company_id, values))
         if procurements:
-            print ("pcurements: ", procurements)
+            print ("procurements: ", procurements)
             self.env['procurement.group'].run(procurements)
         return True
         
