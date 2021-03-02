@@ -226,7 +226,7 @@ class SaleOrderLine(models.Model):
         self.size_back = self.sizes.size_back
         self.size_back_length = self.sizes.size_back_length
         
-    def _prepare_invoice_line(self):
+    def _prepare_invoice_line(self, **optional_values):
         """
         Prepare the dict of values to create the new invoice line for a sales order line.
 
