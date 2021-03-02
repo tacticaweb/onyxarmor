@@ -235,7 +235,6 @@ class SaleOrderLine(models.Model):
         self.ensure_one()
         res = {
             'display_type': self.display_type,
-            'sequence': self.sequence,
             'name': self.name,
             'psnum': self.psnum,
             'size_front':self.size_front,
@@ -292,7 +291,7 @@ class SaleOrderLine(models.Model):
             if line.agent:
                 line_name = str(line.name) + ' ' + line.agent.name + ':' + line.size_front + line.size_front_length + line.size_width + line.size_back + line.size_back_length
             else:
-                line.name = str(line.name)
+                line.name = str(line.product_id.name)
             procurements.append(self.env['procurement.group'].Procurement(
                 line.product_id, product_qty, procurement_uom,
                 line.order_id.partner_shipping_id.property_stock_customer,
