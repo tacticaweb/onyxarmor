@@ -289,9 +289,10 @@ class SaleOrderLine(models.Model):
             line_uom = line.product_uom
             quant_uom = line.product_id.uom_id
             product_qty, procurement_uom = line_uom._adjust_uom_quantities(product_qty, quant_uom)
-            
-            line_name = str(line.name) + ' ' + line.agent.name + ':' + line.size_front + line.size_front_length + line.size_width + line.size_back + line.size_back_length
-            
+            if line.agent:
+                line_name = str(line.name) + ' ' + line.agent.name + ':' + line.size_front + line.size_front_length + line.size_width + line.size_back + line.size_back_length
+            else:
+                line.name = str(line.name)
             procurements.append(self.env['procurement.group'].Procurement(
                 line.product_id, product_qty, procurement_uom,
                 line.order_id.partner_shipping_id.property_stock_customer,
