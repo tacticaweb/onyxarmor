@@ -1,7 +1,5 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<?xml version="1.0" encoding="utf-8"?>
-<openerp>
     <data>
         <template id="report_onyx_invoice_custom" inherit_id="account.report_invoice_document">
             <xpath expr="//table/tbody[@class='invoice_tbody']" position="replace">
@@ -167,5 +165,4 @@
             </xpath>
         </template>
     </data>
-</openerp>
 </odoo>
