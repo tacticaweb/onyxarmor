@@ -173,7 +173,7 @@ class SaleOrderLine(models.Model):
             ('5XL', '5XL'),
             ('6XL', '6XL'),
         ],
-        string='Size Front', required=True,
+        string='Size Front',
         default='MD')
     size_front_length = fields.Selection([
             ('-2', '-2 inch'),
@@ -183,7 +183,7 @@ class SaleOrderLine(models.Model):
             ('+2', '+2 inch'),
             ('+3', '+3 inch'),
             ],
-        string='Size Front Length', required=True,
+        string='Size Front Length',
         default='0')
     size_width = fields.Selection([
             ('0', '0 inch'),
@@ -191,7 +191,7 @@ class SaleOrderLine(models.Model):
             ('+2', '+2 inch'),
             ('+3', '+3 inch'),
             ],
-        string='Size Width', required=True,
+        string='Size Width',
         default='0')
     size_back = fields.Selection([
             ('XS', 'XS'),
@@ -205,7 +205,7 @@ class SaleOrderLine(models.Model):
             ('5XL', '5XL'),
             ('6XL', '6XL'),
         ],
-        string='Size Back', required=True,
+        string='Size Back',
         default='MD')
     size_back_length = fields.Selection([
             ('-2', '-2 inch'),
@@ -215,7 +215,7 @@ class SaleOrderLine(models.Model):
             ('+2', '+2 inch'),
             ('+3', '+3 inch'),
             ],
-        string='Size Back Length', required=True,
+        string='Size Back Length',
         default='0')
     
     @api.onchange('sizes')
