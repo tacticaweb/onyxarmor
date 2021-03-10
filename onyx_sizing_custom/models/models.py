@@ -236,6 +236,8 @@ class SaleOrderLine(models.Model):
         res = {
             'display_type': self.display_type,
             'name': self.name,
+            'agent': self.agent,
+            'sizes': self.sizes,
             'psnum': self.psnum,
             'size_front':self.size_front,
             'size_front_length':self.size_front_length,
