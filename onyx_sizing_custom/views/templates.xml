@@ -18,7 +18,6 @@
 							<t t-set="agent" t-value="na"/>
 							<t t-set="code" t-value="na"/>
 							<t t-set="price" t-value="'0'"/>
-
                             <t t-foreach="lines" t-as="line">
                               <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                               <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
