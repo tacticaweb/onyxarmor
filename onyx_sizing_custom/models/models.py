@@ -30,7 +30,7 @@ class ResSizing(models.Model):
     
     name = fields.Char(string='Sizing', compute='_compute_name')
     agency = fields.Many2one('res.partner', string="Agency")
-    agent = fields.Many2one('res.partner', string="Agent")
+    agent = fields.Many2one('res.partner', string="Officer")
     sale_representative = fields.Many2one('res.users', string="Sale Representative")
     date = fields.Date(string='Date', default=fields.Date.today())
     height = fields.Float(string='Height')
@@ -158,7 +158,7 @@ class ResSizing(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     
-    agent = fields.Many2one('res.partner', string="Agent", domain="[('is_agency','=',False)]")
+    agent = fields.Many2one('res.partner', string="Officer", domain="[('is_agency','=',False)]")
     sizes = fields.Many2one('res.sizing', string="Agency", domain="[('agent','=',agent)]")
     psnum = fields.Char(string='PSNUM')
     size_front = fields.Selection([
@@ -186,6 +186,9 @@ class SaleOrderLine(models.Model):
         string='Size Front Length',
         default='0')
     size_width = fields.Selection([
+            ('-3', '-3 inch'),
+            ('-2', '-2 inch'),
+            ('-1', '-1 inch'),
             ('0', '0 inch'),
             ('+1', '+1 inch'),
             ('+2', '+2 inch'),
@@ -306,7 +309,7 @@ class SaleOrderLine(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
     
-    agent = fields.Many2one('res.partner', string="Agent", domain="[('is_agency','=',False)]")
+    agent = fields.Many2one('res.partner', string="Officer", domain="[('is_agency','=',False)]")
     sizes = fields.Many2one('res.sizing', string="Agency", domain="[('agent','=',agent)]")
     psnum = fields.Char(string='PSNUM')
     size_front = fields.Selection([
@@ -334,6 +337,9 @@ class AccountMoveLine(models.Model):
         string='Size Front Length', required=True,
         default='0')
     size_width = fields.Selection([
+            ('-3', '-3 inch'),
+            ('-2', '-2 inch'),
+            ('-1', '-1 inch'),
             ('0', '0 inch'),
             ('+1', '+1 inch'),
             ('+2', '+2 inch'),
