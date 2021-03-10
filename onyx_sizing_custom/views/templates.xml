@@ -2,6 +2,12 @@
 <odoo>
     <data>
         <template id="report_onyx_invoice_custom" inherit_id="account.report_invoice_document">
+            <xpath expr="//table/thead/tr/th[@name='th_description']" position="before">
+            	<th name="th_code" class="text-left"><span>Serial</span></th>
+            </xpath>
+            <xpath expr="//table/thead/tr/th[@name='th_description']" position="after">
+            	<th name="th_agent" class="text-left"><span>Officer</span></th>
+            </xpath>
             <xpath expr="//table/tbody[@class='invoice_tbody']" position="replace">
             	<tbody class="invoice_tbody">
                             <t t-set="current_subtotal" t-value="0"/>
@@ -9,6 +15,7 @@
 							<t t-set="chaleco" t-value="'0'"/>
 							<t t-set="interaccion" t-value="'0'"/>
 							<t t-set="name" t-value="na"/>
+							<t t-set="agent" t-value="na"/>
 							<t t-set="code" t-value="na"/>
 							<t t-set="price" t-value="'0'"/>
 
@@ -20,6 +27,7 @@
 									<t t-set="interaccion" t-value="int(interaccion) + 1"/>
 									<t t-set="name" t-value="name + ',' + line.name"/>
 									<t t-set="code" t-value="code + line.product_id.default_code"/>
+									<t t-set="agent" t-value="line.agent.name"/>
 									<t t-set="quantity" t-value="line.quantity"/>
 									<t t-set="price" t-value="price + line.price_subtotal"/>
 									<t t-set="product_uom_id" t-value="product_uom_id"/>
@@ -32,7 +40,9 @@
 										<t t-set="chaleco" t-value="'0'"/>
 										<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
 											<t t-if="not line.display_type" name="account_invoice_line_accountable">
+												<td name="serial"><span t-esc="code"/></td>
 												<td name="account_invoice_line_name"><span t-esc="name" t-options="{'widget': 'text'}"/></td>
+												<td name="agent"><span t-esc="agent"/></td>
 												<td class="text-right">
 													<span t-field="line.quantity"/>
 													<span t-field="line.product_uom_id" groups="uom.group_uom"/>
@@ -68,6 +78,7 @@
 										<t t-set="chaleco" t-value="line.psnum"/>
 										<t t-set="interaccion" t-value="1"/>
 										<t t-set="name" t-value="str(line.psnum) + '.' + str(line.name)"/>
+										<t t-set="agent" t-value="line.agent.name"/>
 										<t t-set="code" t-value="line.product_id.default_code"/>
 										<t t-set="price" t-value="line.price_subtotal"/>
 										<t t-set="quantity" t-value="line.quantity"/>
@@ -82,7 +93,9 @@
 									<t t-set="chaleco" t-value="'0'"/>
 									<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
 										<t t-if="not line.display_type" name="account_invoice_line_accountable">
+											<td name="serial"><span t-esc="code"/></td>
 											<td name="account_invoice_line_name"><span t-field="line.name" t-options="{'widget': 'text'}"/></td>
+											<td name="agent"><span t-esc="agent"/></td>
 											<td class="text-right">
 												<span t-field="line.quantity"/>
 												<span t-field="line.product_uom_id" groups="uom.group_uom"/>
@@ -119,7 +132,9 @@
 										<t t-set="interaccion" t-value="'0'"/>
 										<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
 											<t t-if="not line.display_type" name="account_invoice_line_accountable">
+												<td name="serial"><span t-esc="code"/></td>
 												<td name="account_invoice_line_name"><span t-esc="name" t-options="{'widget': 'text'}"/></td>
+												<td name="agent"><span t-esc="agent"/></td>
 												<td class="text-right">
 													<span t-field="line.quantity"/>
 													<span t-field="line.product_uom_id" groups="uom.group_uom"/>
