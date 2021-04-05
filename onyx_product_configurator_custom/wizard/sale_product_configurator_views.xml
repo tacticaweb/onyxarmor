@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+		
+		<record id="view_onyx_product_wiz_form" model="ir.ui.view">
+            <field name="name">onyx_product_wiz</field>
+            <field name="model">onyx.product.configurator</field>
+            <field name="arch" type="xml">
+                <form string="Product Configurator">
+                    <group colspan="4" >
+                        <group colspan="2" >
+	                        <separator string="Order" colspan="4"/>
+	                        <newline/>
+	                        <field name="sale_order_id" nolabel="1"/>
+                        </group>
+                        <group colspan="2" >
+                        	<field name="psnum"/>
+                        	<field name="product_tmpl_id"/>
+                        	<field name="agent"/>
+                        	<field name="sizes"/>
+                        </group>
+                        <separator string="Attributes" colspan="4"/>
+                        <newline/>
+                        <span>SELECT ONLY ONE OPTION/VALUE FOR EVERY ATTRIBUTE AVAILABLE</span>
+                        <field name="product_attribute_ids" nolabel="1" widget="many2many" domain="[('attribute_id.name','in',('Color','Carrier')),('product_tmpl_id','=',product_tmpl_id)]">
+                        	<tree string="Attributes" editable="bottom">
+	                            <field name="attribute_id"/>
+	    						<field name="product_attribute_value_id"/>
+	    					</tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="action_grabar" type="object" string="Add Product" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+        
+        <record id="onyx_product_invoice_wiz_act" model="ir.actions.act_window">
+            <field name="name">Onyx Product Configurator</field>
+            <field name="res_model">onyx.product.configurator</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_onyx_product_wiz_form"/>
+            <field name="target">new</field>
+        </record>
+
+		<record id="view_sale_order_button" model="ir.ui.view">
+            <field name="name">view.sale.order.button</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']" position="before">
+                	<button string="Custom Sizing" name="%(onyx_product_configurator_custom.onyx_product_invoice_wiz_act)d" type="action" class="oe_highlight"/>
+            	</xpath>
+            </field>
+        </record>
+
+</odoo>

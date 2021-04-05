@@ -52,7 +52,7 @@ class ResSizing(models.Model):
         default='1')
     size_front = fields.Selection([
             ('XS', 'XS'),
-            ('S', 'S'),
+            ('SM', 'SM'),
             ('MD', 'MD'),
             ('LG', 'LG'),
             ('XL', 'XL'),
@@ -91,7 +91,7 @@ class ResSizing(models.Model):
         default='0 inch')
     size_back = fields.Selection([
             ('XS', 'XS'),
-            ('S', 'S'),
+            ('SM', 'SM'),
             ('MD', 'MD'),
             ('LG', 'LG'),
             ('XL', 'XL'),
@@ -127,37 +127,26 @@ class ResSizing(models.Model):
             test.name = str(test.agent.name) + ' ' + str(test.agency.name) + ' ' + str(test.date) 
             
     def write(self, vals):
-        print ("vals: ", vals)
         tallaje = ""
         if 'size_front' in vals:
-            print ('vals size_front')
             tallaje = tallaje + str(vals['size_front'])
         else:
-            print ('self size_front')
             tallaje = tallaje + str(self.size_front)
         if 'size_front_length' in vals:
-            print ('vals size_front_length')
             tallaje = tallaje + str(vals['size_front_length'])
         else:
-            print ('self size_front_length')
             tallaje = tallaje + str(self.size_front_length)
         if 'size_width' in vals:
-            print ('vals size_width')
             tallaje = tallaje + str(vals['size_width'])
         else:
-            print ('self size_width')
             tallaje = tallaje + str(self.size_width)
         if 'size_back' in vals:
-            print ('vals size_back')
             tallaje = tallaje + str(vals['size_back'])
         else:
-            print ('self size_back')
             tallaje = tallaje + str(self.size_back)
         if 'size_back_length' in vals:
-            print ('vals size_back_length')
             tallaje = tallaje + str(vals['size_back_length'])
         else:
-            print ('self size_back_length')
             tallaje = tallaje + str(self.size_back_length)
         message = "Tallaje modificado con el siguiente codigo:" + (str(tallaje))
         self.message_post(body=message)
@@ -168,8 +157,7 @@ class ResSizing(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     
-    agent = fields.Many2one('res.partner', string="Officer", domain="[('is_agency','=',False)]")
-    sizes = fields.Many2one('res.sizing', string="Agency", domain="[('agent','=',agent)]")
+    #agent = fields.Many2one('res.partner', string="Officer", domain="[('is_agency','=',False)]")
     psnum = fields.Char(string='PSNUM')
         
     def _prepare_invoice_line(self, **optional_values):
@@ -182,8 +170,7 @@ class SaleOrderLine(models.Model):
         res = {
             'display_type': self.display_type,
             'name': self.name,
-            'agent': self.agent,
-            'sizes': self.sizes,
+            #'agent': self.agent,
             'psnum': self.psnum,
             'product_id': self.product_id.id,
             'product_uom_id': self.product_uom.id,
@@ -231,10 +218,7 @@ class SaleOrderLine(models.Model):
             line_uom = line.product_uom
             quant_uom = line.product_id.uom_id
             product_qty, procurement_uom = line_uom._adjust_uom_quantities(product_qty, quant_uom)
-            if line.agent:
-                line_name = str(line.name) + ' ' + line.agent.name
-            else:
-                line_name = str(line.product_id.name)
+            line_name = str(line.product_id.name)
             procurements.append(self.env['procurement.group'].Procurement(
                 line.product_id, product_qty, procurement_uom,
                 line.order_id.partner_shipping_id.property_stock_customer,
@@ -247,8 +231,7 @@ class SaleOrderLine(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
     
-    agent = fields.Many2one('res.partner', string="Officer", domain="[('is_agency','=',False)]")
-    sizes = fields.Many2one('res.sizing', string="Agency", domain="[('agent','=',agent)]")
+    #agent = fields.Many2one('res.partner', string="Officer", domain="[('is_agency','=',False)]")
     psnum = fields.Char(string='PSNUM')
         
 class ProcurementGroup(models.Model):
@@ -303,7 +286,6 @@ class StockRule(models.Model):
     _inherit = 'stock.rule'
     
     def _get_stock_move_values(self, product_id, product_qty, product_uom, location_id, name, origin, company_id, values):
-        print ("_get_stock_move_values: ", name)
         group_id = False
         if self.group_propagation_option == 'propagate':
             group_id = values.get('group_id', False) and values['group_id'].id
@@ -346,5 +328,4 @@ class StockRule(models.Model):
         for field in self._get_custom_move_fields():
             if field in values:
                 move_values[field] = values.get(field)
-        print ("move_values: ", move_values)
         return move_values
