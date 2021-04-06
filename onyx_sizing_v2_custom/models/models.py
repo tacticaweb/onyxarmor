@@ -62,7 +62,7 @@ class ResSizing(models.Model):
             ('5XL', '5XL'),
             ('6XL', '6XL'),
         ],
-        string='Size Front', required=True,
+        string='Front Size', required=True,
         default='MD')
     size_front_length = fields.Selection([
             ('-2 inch', '-2 inch'),
@@ -101,7 +101,7 @@ class ResSizing(models.Model):
             ('5XL', '5XL'),
             ('6XL', '6XL'),
         ],
-        string='Size Back', required=True,
+        string='Back Size', required=True,
         default='MD')
     size_back_length = fields.Selection([
             ('-2 inch', '-2 inch'),
@@ -157,7 +157,6 @@ class ResSizing(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     
-    #agent = fields.Many2one('res.partner', string="Officer", domain="[('is_agency','=',False)]")
     psnum = fields.Char(string='PSNUM')
         
     def _prepare_invoice_line(self, **optional_values):
@@ -170,7 +169,6 @@ class SaleOrderLine(models.Model):
         res = {
             'display_type': self.display_type,
             'name': self.name,
-            #'agent': self.agent,
             'psnum': self.psnum,
             'product_id': self.product_id.id,
             'product_uom_id': self.product_uom.id,
@@ -231,7 +229,6 @@ class SaleOrderLine(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
     
-    #agent = fields.Many2one('res.partner', string="Officer", domain="[('is_agency','=',False)]")
     psnum = fields.Char(string='PSNUM')
         
 class ProcurementGroup(models.Model):
