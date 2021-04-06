@@ -48,10 +48,15 @@ class OnyxProductConfigurator(models.TransientModel):
         combination = self.env['product.template.attribute.value'].search([('product_attribute_value_id','in',variant),('product_tmpl_id','=',self.product_tmpl_id.id)])    
         combination = combination | self.product_attribute_ids
         product = self.product_tmpl_id._create_product_variant(combination)
+        if self.psnum:
+            psnum = self.psnum
+        else:
+            psnum = 0
+        
         order_line_data = {
                 'order_id': self.sale_order_id.id,
                 'name': product.display_name + ' Agent: ' + self.agent.name,
-                'psnum': self.psnum,
+                'psnum': psnum,
                 'product_id': product.id,
                 'price_unit': product.lst_price,
                 'product_uom_qty': 1
@@ -59,24 +64,6 @@ class OnyxProductConfigurator(models.TransientModel):
         order_line = self.env['sale.order.line'].create(order_line_data)
           
         return True
-    
-    def action_grabar_old(self):
-        cantidad = 0
-        precio_unitario = 0
-        subtotal = 0
-        
-        for linea in self.products_ids:
-            order_line_data = {}
-            order_line_data = {
-                'order_id': self.sale_order_id.id,
-                'name': linea.display_name + ' Officer: ' + self.agent.partner_id.name,
-                'psnum': self.psnum,
-                'product_id': linea.id,
-                'price_unit': linea.lst_price,
-                'product_uom_qty': 1
-            }
-            order_line = self.env['sale.order.line'].create(order_line_data)
-        return 1
         
         
         
