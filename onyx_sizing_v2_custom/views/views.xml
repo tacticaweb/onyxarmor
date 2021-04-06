@@ -36,25 +36,25 @@
         <field name="name">measure.view.form</field>
         <field name="model">res.sizing</field>
         <field name="arch" type="xml">
-			<form>
-			    <header/>
-			    <sheet string="Measurements">
-			        <div class="oe_title">
-			            <h1>
-							<field name="name" required="1" placeholder="Name..."/>
+		<form>
+		    <header/>
+			<sheet string="Measurements">
+			       <div class="oe_title">
+		        	    <h1>
+					<field name="name" required="1" placeholder="Name..."/>
 			            </h1>
 			        </div>
 			        <group>
 			            <group name="agent_info_left">
 							<field name="agency" domain="[['is_agency','=',True]]" string="Agency"/>
-							<field name="agent" string="Agent"/>
+							<field name="agent" string="Officer"/>
 							<field name="sale_representative" string="Sale Rep"/>
-						</group>
+				    </group>
 			            <group name="agent_info_right">
 							<field name="date" string="Date"/>
 							<field name="height" string="Height"/>
 							<field name="weight"/>
-						</group>
+				    </group>
 			        </group>
 					<p>SIZING PROCEDURE FOR USING TAPE MEASURE: Measure and determine the size in the sequences shown below, then enter measurements in the provided boxes. For best results, take all measurements while the officer if wearing his regular duty uniform and belt.</p>
 			        <notebook>
@@ -100,10 +100,10 @@
 			                  <field name="inf_overlap" string="Overlap"/>
 			                </group>
 			                <group name="size_info_right" string="Size">
-			                  <field name="size_front" string="Size Front"/>
+			                  <field name="size_front" string="Front Size"/>
 			                  <field name="size_front_length" string="Front Length"/>
 			                  <field name="size_width" string="Width"/>
-			                  <field name="size_back" string="Size Back"/>
+			                  <field name="size_back" string="Back Size"/>
 			                  <field name="size_back_length" string="Front Length"/>
 			                </group>
 			              </group>
@@ -117,8 +117,8 @@
 			    </sheet>
 			    <div class="oe_chatter" name="oe_chatter">
 			        <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="activity_ids" widget="mail_activity"/>
-                    <field name="message_ids" widget="mail_thread"/>
+                    		<field name="activity_ids" widget="mail_activity"/>
+                    		<field name="message_ids" widget="mail_thread"/>
 			    </div>
 			</form>
          </field>
@@ -226,10 +226,10 @@
 						                  <field name="inf_overlap" string="Overlap"/>
 						                </group>
 						                <group name="size_info_right" string="Size">
-						                  <field name="size_front" string="Size Front"/>
+						                  <field name="size_front" string="Front Size"/>
 						                  <field name="size_front_length" string="Front Length"/>
 						                  <field name="size_width" string="Width"/>
-						                  <field name="size_back" string="Size Back"/>
+						                  <field name="size_back" string="Back Size"/>
 						                  <field name="size_back_length" string="Front Length"/>
 						                </group>
 						              </group>
@@ -254,8 +254,7 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
 	    <field name="arch" type="xml">
 	    	<xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='name']" position="after">
-	    		<!--<field name="agent" string="Agent" widget='selection'/>-->
-	    		<field name="psnum" string="PSNUM"/>
+	    		<field name="psnum" string="Set Num"/>
 	    	</xpath>
 	    	<xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='qty_delivered']" position="replace">
 	    		<field name="qty_delivered" string="Delivered" invisible="True"/>
@@ -275,8 +274,7 @@
         <field name="inherit_id" ref="account.view_move_form"/>
 	    <field name="arch" type="xml">
 	    	<xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='invoice_line_ids']/tree[1]/field[@name='name']" position="after">
-	    		<!--<field name="agent" string="Officer" widget='selection'/>-->
-	    		<field name="psnum" string="PSNUM"/>
+	    		<field name="psnum" string="Set Num"/>
 	    	</xpath>
 	    </field>
 	</record>
