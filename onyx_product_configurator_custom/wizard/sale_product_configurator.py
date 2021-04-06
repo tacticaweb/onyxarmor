@@ -10,7 +10,7 @@ class OnyxProductConfigurator(models.TransientModel):
     _name = 'onyx.product.configurator'
     
     sale_order_id = fields.Many2one('sale.order', 'Order', readonly=True, default=lambda self: self.env.context.get('active_id'))
-    agent = fields.Many2one('res.partner', string="Agent", domain="[('is_agency','=',False)]")
+    agent = fields.Many2one('res.partner', string="Officer", domain="[('is_agency','=',False)]")
     sizes = fields.Many2one('res.sizing', string="Sizes", domain="[('agent','=',agent)]")
     psnum = fields.Integer(string="Set Number")
     product_tmpl_id = fields.Many2one('product.template',string="Product Template", domain="[('sizes_ok','=',True)]")
@@ -18,7 +18,6 @@ class OnyxProductConfigurator(models.TransientModel):
     product_attribute_ids = fields.Many2many('product.template.attribute.value', 'attribute_value_rel','id', 'products_templates_attribute_value', string="Attributes", domain="[('product_tmpl_id','in',[product_tmpl_id])]")
     
     def action_grabar(self):
-        print ("generar_variantes: ")
         variant = []
         attribute = []
         for attribute_line in self.product_tmpl_id.attribute_line_ids.attribute_id:
@@ -48,7 +47,6 @@ class OnyxProductConfigurator(models.TransientModel):
                         variant.append(attribute_value.id)
         combination = self.env['product.template.attribute.value'].search([('product_attribute_value_id','in',variant),('product_tmpl_id','=',self.product_tmpl_id.id)])    
         combination = combination | self.product_attribute_ids
-        print ("Combination: ", combination)    
         product = self.product_tmpl_id._create_product_variant(combination)
         order_line_data = {
                 'order_id': self.sale_order_id.id,
@@ -71,7 +69,7 @@ class OnyxProductConfigurator(models.TransientModel):
             order_line_data = {}
             order_line_data = {
                 'order_id': self.sale_order_id.id,
-                'name': linea.display_name + 'Agent: ' + self.agent.partner_id.name,
+                'name': linea.display_name + ' Officer: ' + self.agent.partner_id.name,
                 'psnum': self.psnum,
                 'product_id': linea.id,
                 'price_unit': linea.lst_price,
