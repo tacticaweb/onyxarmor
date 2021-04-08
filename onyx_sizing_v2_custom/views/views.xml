@@ -146,6 +146,9 @@
 	        <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='type']" position="before">
         		<field name="is_agency" string="It's an Agency"/>
 	        </xpath>
+		<xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[1]/form[1]/sheet[1]/group[1]/group[1]/field[@name='function']" position="after">
+        		<field name="is_agency" string="It's an Agency"/>
+	        </xpath>
 	        <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='vat']" position="after">
 	        	<field name="cod_logistic_operator" string="Cod Logistic Operator"/>
 	        	<field name="logistic_operator_name" string="Logistic Operator Name"/>
@@ -153,38 +156,38 @@
 	        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[2]" position="after">
 	        	<page name="res_sizing" string="Sizing" attrs="{'invisible': [('is_agency','=', True)]}">
 	        		<field name="sizes" colspan="4" nolabel="1" context="{'default_agent': active_id,'default_agency': parent_id}">
-                        <tree string="Measures" editable="bottom">
-                            <field name="name" string="Measures"/>
-    						<field name="agent" readonly='True'/>
-    						<field name="agency" domain="[['is_agency','=',True]]" readonly='True'/>
-    						<field name="size_front"/>
-    						<field name="size_front_length"/>
-    						<field name="size_width"/>
-    						<field name="size_back"/>
-    						<field name="size_back_length"/>
-                        </tree>
-                        <form>
-						    <sheet string="Measurements">
-						        <div class="oe_title">
-						            <h1>
-										<field name="name" required="1" placeholder="Name..."/>
-						            </h1>
-						        </div>
-						        <group>
-						            <group name="agent_info_left">
-										<field name="agency" domain="[['is_agency','=',True]]" string="Agency"/>
-										<field name="agent" string="Agent"/>
-										<field name="sale_representative" string="Sale Rep"/>
-									</group>
-						            <group name="agent_info_right">
-										<field name="date" string="Date"/>
-										<field name="height" string="Height"/>
-										<field name="weight"/>
-									</group>
-						        </group>
-								<p>SIZING PROCEDURE FOR USING TAPE MEASURE: Measure and determine the size in the sequences shown below, then enter measurements in the provided boxes. For best results, take all measurements while the officer if wearing his regular duty uniform and belt.</p>
-						        <notebook>
-						            <page string="Chest" name="size_chest">
+                        	<tree string="Measures" editable="bottom">
+                            		<field name="name" string="Measures"/>
+    	   		    		<field name="agent" readonly='True'/>
+    			    		<field name="agency" domain="[['is_agency','=',True]]" readonly='True'/>
+    			    		<field name="size_front"/>
+    					<field name="size_front_length"/>
+    					<field name="size_width"/>
+    					<field name="size_back"/>
+    					<field name="size_back_length"/>
+                        	</tree>
+                        	<form>
+					<sheet string="Measurements">
+					        <div class="oe_title">
+					            <h1>
+							<field name="name" required="1" placeholder="Name..."/>
+					            </h1>
+					        </div>
+					        <group>
+					            <group name="agent_info_left">
+							<field name="agency" domain="[['is_agency','=',True]]" string="Agency"/>
+							<field name="agent" string="Agent"/>
+							<field name="sale_representative" string="Sale Rep"/>
+						    </group>
+						    <group name="agent_info_right">
+							<field name="date" string="Date"/>
+							<field name="height" string="Height"/>
+							<field name="weight"/>
+						    </group>
+						</group>
+						<p>SIZING PROCEDURE FOR USING TAPE MEASURE: Measure and determine the size in the sequences shown below, then enter measurements in the provided boxes. For best results, take all measurements while the officer if wearing his regular duty uniform and belt.</p>
+						<notebook>
+							<page string="Chest" name="size_chest">
 						              <group>
 						                <field name="chest_measure"/>
 						              </group>
