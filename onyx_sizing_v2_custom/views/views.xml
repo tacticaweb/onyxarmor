@@ -104,7 +104,7 @@
 			                  <field name="size_front_length" string="Front Length"/>
 			                  <field name="size_width" string="Width"/>
 			                  <field name="size_back" string="Back Size"/>
-			                  <field name="size_back_length" string="Front Length"/>
+			                  <field name="size_back_length" string="Back Length"/>
 			                </group>
 			              </group>
 			              <group name="size_info_notes">
