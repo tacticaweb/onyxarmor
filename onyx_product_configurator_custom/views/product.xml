@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
                 <button class="oe_stat_button" name="toggle_sizes" type="object" icon="fa-wrench" string="Custom Size">
-                    <field name="sizes_ok" string="Custom Size" options='{"active": "Enable", "inactive": "Disable"}' widget="boolean_button"/>
+                    <field name="sizes_ok" string="Sizing?" options='{"active": "Enable", "inactive": "Disable"}' widget="boolean_button"/>
                 </button>
             </div>
         </field>
