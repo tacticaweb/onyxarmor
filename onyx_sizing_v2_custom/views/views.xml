@@ -36,25 +36,26 @@
         <field name="name">measure.view.form</field>
         <field name="model">res.sizing</field>
         <field name="arch" type="xml">
-		<form>
-		    <header/>
-			<sheet string="Measurements">
-			       <div class="oe_title">
-		        	    <h1>
-					<field name="name" required="1" placeholder="Name..."/>
+			<form>
+			    <header/>
+			    <sheet string="Measurements">
+			        <div class="oe_title">
+			            <h1>
+							<field name="name" required="1" placeholder="Name..."/>
 			            </h1>
 			        </div>
 			        <group>
 			            <group name="agent_info_left">
 							<field name="agency" domain="[['is_agency','=',True]]" string="Agency"/>
-							<field name="agent" string="Officer"/>
+							<field name="agent" string="Agent"/>
 							<field name="sale_representative" string="Sale Rep"/>
-				    </group>
+						</group>
 			            <group name="agent_info_right">
 							<field name="date" string="Date"/>
-							<field name="height" string="Height"/>
+							<field name="height_ft" string="Height Ft"/>
+							<field name="height_in" string="Height In"/>
 							<field name="weight"/>
-				    </group>
+						</group>
 			        </group>
 					<p>SIZING PROCEDURE FOR USING TAPE MEASURE: Measure and determine the size in the sequences shown below, then enter measurements in the provided boxes. For best results, take all measurements while the officer if wearing his regular duty uniform and belt.</p>
 			        <notebook>
@@ -100,11 +101,11 @@
 			                  <field name="inf_overlap" string="Overlap"/>
 			                </group>
 			                <group name="size_info_right" string="Size">
-			                  <field name="size_front" string="Front Size"/>
+			                  <field name="size_front" string="Size Front"/>
 			                  <field name="size_front_length" string="Front Length"/>
 			                  <field name="size_width" string="Width"/>
-			                  <field name="size_back" string="Back Size"/>
-			                  <field name="size_back_length" string="Back Length"/>
+			                  <field name="size_back" string="Size Back"/>
+			                  <field name="size_back_length" string="Front Length"/>
 			                </group>
 			              </group>
 			              <group name="size_info_notes">
@@ -117,8 +118,8 @@
 			    </sheet>
 			    <div class="oe_chatter" name="oe_chatter">
 			        <field name="message_follower_ids" widget="mail_followers"/>
-                    		<field name="activity_ids" widget="mail_activity"/>
-                    		<field name="message_ids" widget="mail_thread"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
 			    </div>
 			</form>
          </field>
@@ -146,7 +147,7 @@
 	        <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='type']" position="before">
         		<field name="is_agency" string="It's an Agency"/>
 	        </xpath>
-		<xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[1]/form[1]/sheet[1]/group[1]/group[1]/field[@name='function']" position="after">
+	        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[1]/form[1]/sheet[1]/group[1]/group[1]/field[@name='function']" position="after">
         		<field name="is_agency" string="It's an Agency"/>
 	        </xpath>
 	        <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='vat']" position="after">
@@ -156,38 +157,38 @@
 	        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[2]" position="after">
 	        	<page name="res_sizing" string="Sizing" attrs="{'invisible': [('is_agency','=', True)]}">
 	        		<field name="sizes" colspan="4" nolabel="1" context="{'default_agent': active_id,'default_agency': parent_id}">
-                        	<tree string="Measures" editable="bottom">
-                            		<field name="name" string="Measures"/>
-    	   		    		<field name="agent" readonly='True'/>
-    			    		<field name="agency" domain="[['is_agency','=',True]]" readonly='True'/>
-    			    		<field name="size_front"/>
-    					<field name="size_front_length"/>
-    					<field name="size_width"/>
-    					<field name="size_back"/>
-    					<field name="size_back_length"/>
-                        	</tree>
-                        	<form>
-					<sheet string="Measurements">
-					        <div class="oe_title">
-					            <h1>
-							<field name="name" required="1" placeholder="Name..."/>
-					            </h1>
-					        </div>
-					        <group>
-					            <group name="agent_info_left">
-							<field name="agency" domain="[['is_agency','=',True]]" string="Agency"/>
-							<field name="agent" string="Agent"/>
-							<field name="sale_representative" string="Sale Rep"/>
-						    </group>
-						    <group name="agent_info_right">
-							<field name="date" string="Date"/>
-							<field name="height" string="Height"/>
-							<field name="weight"/>
-						    </group>
-						</group>
-						<p>SIZING PROCEDURE FOR USING TAPE MEASURE: Measure and determine the size in the sequences shown below, then enter measurements in the provided boxes. For best results, take all measurements while the officer if wearing his regular duty uniform and belt.</p>
-						<notebook>
-							<page string="Chest" name="size_chest">
+                        <tree string="Measures" editable="bottom">
+                            <field name="name" string="Measures"/>
+    						<field name="agent" readonly='True'/>
+    						<field name="agency" domain="[['is_agency','=',True]]" readonly='True'/>
+    						<field name="size_front"/>
+    						<field name="size_front_length"/>
+    						<field name="size_width"/>
+    						<field name="size_back"/>
+    						<field name="size_back_length"/>
+                        </tree>
+                        <form>
+						    <sheet string="Measurements">
+						        <div class="oe_title">
+						            <h1>
+										<field name="name" required="1" placeholder="Name..."/>
+						            </h1>
+						        </div>
+						        <group>
+						            <group name="agent_info_left">
+										<field name="agency" domain="[['is_agency','=',True]]" string="Agency"/>
+										<field name="agent" string="Agent"/>
+										<field name="sale_representative" string="Sale Rep"/>
+									</group>
+						            <group name="agent_info_right">
+										<field name="date" string="Date"/>
+										<field name="height" string="Height"/>
+										<field name="weight"/>
+									</group>
+						        </group>
+								<p>SIZING PROCEDURE FOR USING TAPE MEASURE: Measure and determine the size in the sequences shown below, then enter measurements in the provided boxes. For best results, take all measurements while the officer if wearing his regular duty uniform and belt.</p>
+						        <notebook>
+						            <page string="Chest" name="size_chest">
 						              <group>
 						                <field name="chest_measure"/>
 						              </group>
@@ -229,11 +230,11 @@
 						                  <field name="inf_overlap" string="Overlap"/>
 						                </group>
 						                <group name="size_info_right" string="Size">
-						                  <field name="size_front" string="Front Size"/>
+						                  <field name="size_front" string="Size Front"/>
 						                  <field name="size_front_length" string="Front Length"/>
 						                  <field name="size_width" string="Width"/>
-						                  <field name="size_back" string="Back Size"/>
-						                  <field name="size_back_length" string="Back Length"/>
+						                  <field name="size_back" string="Size Back"/>
+						                  <field name="size_back_length" string="Front Length"/>
 						                </group>
 						              </group>
 						              <group name="size_info_notes">
@@ -251,13 +252,16 @@
 	    </field>
     </record>
     
+    
+    
     <record id="view_custom_sale_order_form" model="ir.ui.view">
         <field name="name">custom.sale.order.form</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
 	    <field name="arch" type="xml">
 	    	<xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='name']" position="after">
-	    		<field name="psnum" string="Set Num"/>
+	    		<!--<field name="agent" string="Agent" widget='selection'/>-->
+	    		<field name="psnum" string="PSNUM"/>
 	    	</xpath>
 	    	<xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/tree[1]/field[@name='qty_delivered']" position="replace">
 	    		<field name="qty_delivered" string="Delivered" invisible="True"/>
@@ -277,7 +281,8 @@
         <field name="inherit_id" ref="account.view_move_form"/>
 	    <field name="arch" type="xml">
 	    	<xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='invoice_line_ids']/tree[1]/field[@name='name']" position="after">
-	    		<field name="psnum" string="Set Num"/>
+	    		<!--<field name="agent" string="Officer" widget='selection'/>-->
+	    		<field name="psnum" string="PSNUM"/>
 	    	</xpath>
 	    </field>
 	</record>
