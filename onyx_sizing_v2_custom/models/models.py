@@ -63,7 +63,7 @@ class ResSizing(models.Model):
             ('5XL', '5XL'),
             ('6XL', '6XL'),
         ],
-        string='Size Front', required=True,
+        string='Front Size', required=True,
         default='MD')
     size_front_length = fields.Selection([
             ('-2 inch', '-2 inch'),
@@ -76,7 +76,7 @@ class ResSizing(models.Model):
             ('+5 inch', '+5 inch'),
             ('+6 inch', '+6 inch'),
             ],
-        string='Size Front Length', required=True,
+        string='Front Length', required=True,
         default='0 inch')
     size_width = fields.Selection([
             ('-2 inch', '-2 inch'),
@@ -102,7 +102,7 @@ class ResSizing(models.Model):
             ('5XL', '5XL'),
             ('6XL', '6XL'),
         ],
-        string='Size Back', required=True,
+        string='Back Size', required=True,
         default='MD')
     size_back_length = fields.Selection([
             ('-2 inch', '-2 inch'),
@@ -115,7 +115,7 @@ class ResSizing(models.Model):
             ('+5 inch', '+5 inch'),
             ('+6 inch', '+6 inch'),
             ],
-        string='Size Back Length', required=True,
+        string='Back Length', required=True,
         default='0 inch')
     deviations = fields.Text(string='Deviations requested by officer')
     additional_notes = fields.Text(string='Additional Notes')
