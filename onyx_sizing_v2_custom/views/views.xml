@@ -22,11 +22,11 @@
                     <field name="name"/>
                 	<field name="agent"/>
                 	<field name="agency"/>
-                	<field name="size_front"/>
-                	<field name="size_front_length"/>
-                	<field name="size_width"/>
-                	<field name="size_back"/>
-                	<field name="size_back_length"/>
+                	<field name="size_front" string="Front Size"/>
+                	<field name="size_front_length" string="Front Length"/>
+                	<field name="size_width" string="Width"/>
+                	<field name="size_back" string="Back Size"/>
+                	<field name="size_back_length" string="Back Length"/>
                 </tree>
             </field>
     </record>
@@ -101,11 +101,11 @@
 			                  <field name="inf_overlap" string="Overlap"/>
 			                </group>
 			                <group name="size_info_right" string="Size">
-			                  <field name="size_front" string="Size Front"/>
+			                  <field name="size_front" string="Front Size"/>
 			                  <field name="size_front_length" string="Front Length"/>
 			                  <field name="size_width" string="Width"/>
-			                  <field name="size_back" string="Size Back"/>
-			                  <field name="size_back_length" string="Front Length"/>
+			                  <field name="size_back" string="Back Size"/>
+			                  <field name="size_back_length" string="Back Length"/>
 			                </group>
 			              </group>
 			              <group name="size_info_notes">
@@ -231,11 +231,11 @@
 						                  <field name="inf_overlap" string="Overlap"/>
 						                </group>
 						                <group name="size_info_right" string="Size">
-						                  <field name="size_front" string="Size Front"/>
+						                  <field name="size_front" string="Front Size"/>
 						                  <field name="size_front_length" string="Front Length"/>
 						                  <field name="size_width" string="Width"/>
-						                  <field name="size_back" string="Size Back"/>
-						                  <field name="size_back_length" string="Front Length"/>
+						                  <field name="size_back" string="Back Size"/>
+						                  <field name="size_back_length" string="Back Length"/>
 						                </group>
 						              </group>
 						              <group name="size_info_notes">
