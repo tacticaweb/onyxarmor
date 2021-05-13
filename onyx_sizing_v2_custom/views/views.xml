@@ -20,13 +20,13 @@
             <field name="arch" type="xml">
                 <tree string="Sizing Tree">
                     <field name="name"/>
-                	<field name="agent"/>
-                	<field name="agency"/>
-                	<field name="size_front" string="Front Size"/>
-                	<field name="size_front_length" string="Front Length"/>
-                	<field name="size_width" string="Width"/>
-                	<field name="size_back" string="Back Size"/>
-                	<field name="size_back_length" string="Back Length"/>
+                    <field name="agent"/>
+                    <field name="agency"/>
+                    <field name="size_front" string="Front Size"/>
+                    <field name="size_front_length" string="Front Length"/>
+                    <field name="size_width" string="Width"/>
+                    <field name="size_back" string="Back Size"/>
+                    <field name="size_back_length" string="Back Length"/>
                 </tree>
             </field>
     </record>
