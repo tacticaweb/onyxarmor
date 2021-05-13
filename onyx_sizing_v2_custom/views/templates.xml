@@ -5,6 +5,8 @@
             <xpath expr="//table/thead/tr/th[@name='th_description']" position="before">
             	<th name="th_code" class="text-left" style="width:100px"><span>Serial</span></th>
             </xpath>
+	    <xpath expr="//table/thead/tr/th[@name='th_taxes']" position="replace">
+            </xpath>
             <xpath expr="//table/tbody[@class='sale_tbody']" position="replace">
             	<tbody class="sale_tbody">
                   <t t-set="current_subtotal" t-value="0"/>
