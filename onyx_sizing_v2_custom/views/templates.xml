@@ -44,14 +44,14 @@
   		    			        <span t-field="line.product_uom" groups="uom.group_uom"/>
   				        </td>
           				<td name="td_priceunit" class="text-right">
-          		    			<span t-esc="price_unit"/>
+          		    			<span t-esc="round(price_unit)"/>
           				</td>
           				<td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">
           		    			<span t-field="line.discount"/>
           				</td>
           				<td name="td_subtotal" class="text-right o_price_total">
-          		    			<span t-esc="price" groups="account.group_show_line_subtotals_tax_excluded"/>
-          		    			<span t-esc="price" groups="account.group_show_line_subtotals_tax_included"/>
+          		    			<span t-esc="round(price)" groups="account.group_show_line_subtotals_tax_excluded"/>
+          		    			<span t-esc="round(price)" groups="account.group_show_line_subtotals_tax_included"/>
           				</td>
           	    		</t>
           	    		<t t-if="line.display_type == 'line_section'">
@@ -99,14 +99,14 @@
   								<span t-field="line.product_uom_id" groups="uom.group_uom"/>
   							</td>
   							<td t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
-  								<span class="text-nowrap" t-esc="price_unit"/>
+  								<span class="text-nowrap" t-esc="round(price_unit)"/>
   							</td>
   							<td t-if="display_discount" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
   								<span class="text-nowrap" t-field="line.discount"/>
   							</td>
   							<td class="text-right o_price_total">
-  								<span class="text-nowrap" t-esc="price" groups="account.group_show_line_subtotals_tax_excluded"/>
-  								<span class="text-nowrap" t-esc="price" groups="account.group_show_line_subtotals_tax_included"/>
+  								<span class="text-nowrap" t-esc="round(price)" groups="account.group_show_line_subtotals_tax_excluded"/>
+  								<span class="text-nowrap" t-esc="round(price)" groups="account.group_show_line_subtotals_tax_included"/>
   							</td>
   						</t>
   						<t t-if="line.display_type == 'line_section'">
@@ -135,14 +135,14 @@
   									<span t-field="line.product_uom" groups="uom.group_uom"/>
   								</td>
   								<td name="td_priceunit" class="text-right">
-  				<span t-esc="price_unit"/>
+  				<span t-esc="round(price_unit)"/>
   				</td>
   								<td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">
   				<span t-field="line.discount"/>
   				</td>
   								<td name="td_subtotal" class="text-right o_price_total">
-  				<span t-esc="price" groups="account.group_show_line_subtotals_tax_excluded"/>
-  				<span t-esc="price" groups="account.group_show_line_subtotals_tax_included"/>
+  				<span t-esc="round(price)" groups="account.group_show_line_subtotals_tax_excluded"/>
+  				<span t-esc="round(price)" groups="account.group_show_line_subtotals_tax_included"/>
   				</td>
   							</t>
   							<t t-if="line.display_type == 'line_section'">
