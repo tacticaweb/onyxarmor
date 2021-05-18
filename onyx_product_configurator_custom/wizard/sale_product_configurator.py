@@ -19,7 +19,6 @@ class OnyxProductConfigurator(models.TransientModel):
     
     def action_grabar(self):
         variant = []
-        attribute = []
         for attribute_line in self.product_tmpl_id.attribute_line_ids.attribute_id:
             if attribute_line.name == "Front Size":
                 for attribute_value in attribute_line.value_ids:
@@ -57,6 +56,7 @@ class OnyxProductConfigurator(models.TransientModel):
                 'order_id': self.sale_order_id.id,
                 'name': product.display_name + ' Agent: ' + self.agent.name,
                 'psnum': psnum,
+                'size': self.sizes.id,
                 'product_id': product.id,
                 'price_unit': product.lst_price,
                 'product_uom_qty': 1

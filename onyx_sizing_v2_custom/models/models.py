@@ -4,10 +4,11 @@ import logging
 import werkzeug
 
 from collections import namedtuple, OrderedDict, defaultdict
-from odoo import api, fields, models, _
+from odoo import api, fields, models, SUPERUSER_ID,_
 from odoo import http, _
 from odoo.exceptions import UserError
 from dateutil.relativedelta import relativedelta
+from odoo.addons.stock.models.stock_rule import ProcurementException
 from odoo.http import request
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round, float_is_zero
 import datetime
@@ -158,7 +159,7 @@ class ResSizing(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     
-    #agent = fields.Many2one('res.partner', string="Officer", domain="[('is_agency','=',False)]")
+    size= fields.Many2one('res.sizing', string="Sizing")
     psnum = fields.Char(string='PSNUM')
         
     def _prepare_invoice_line(self, **optional_values):
@@ -248,6 +249,7 @@ class ProcurementGroup(models.Model):
         actions_to_run = defaultdict(list)
         errors = []
         for procurement in procurements:
+            print ("\n\n251.Run procurement: ", procurement)
             procurement.values.setdefault('company_id', procurement.location_id.company_id)
             procurement.values.setdefault('priority', '1')
             procurement.values.setdefault('date_planned', fields.Datetime.now())
@@ -256,21 +258,23 @@ class ProcurementGroup(models.Model):
                 float_is_zero(procurement.product_qty, precision_rounding=procurement.product_uom.rounding)
             ):
                 continue
+            print ("\n\n 260.procurement: ", procurement)
             rule = self._get_rule(procurement.product_id, procurement.location_id, procurement.values)
             
-            print ("rule: ", rule)
+            print ("\n\n 263.rule: ", rule)
             if not rule:
                 errors.append(_('No rule has been found to replenish "%s" in "%s".\nVerify the routes configuration on the product.') %
                     (procurement.product_id.display_name, procurement.location_id.display_name))
             else:
                 action = 'pull' if rule.action == 'pull_push' else rule.action
                 actions_to_run[action].append((procurement, rule))
-                print ("actions_to_run: ", actions_to_run)
+                print ("\n\n 270.actions_to_run: ", actions_to_run)
 
         if errors:
             raise UserError('\n'.join(errors))
 
         for action, procurements in actions_to_run.items():
+            print ("\n\n 276. procurements: ",procurements)
             if hasattr(self.env['stock.rule'], '_run_%s' % action):
                 try:
                     getattr(self.env['stock.rule'], '_run_%s' % action)(procurements)
@@ -330,3 +334,113 @@ class StockRule(models.Model):
             if field in values:
                 move_values[field] = values.get(field)
         return move_values
+    
+    @api.model
+    def _run_manufacture(self, procurements):
+        print ("\n\n 340._run_manufacture: ",procurements)
+        productions_values_by_company = defaultdict(list)
+        errors = []
+        for procurement, rule in procurements:
+            print ("\n\n 344.procurement.values: ",procurement.values)
+            bom = rule._get_matching_bom(procurement.product_id, procurement.company_id, procurement.values)
+            if not bom:
+                msg = _('There is no Bill of Material of type manufacture or kit found for the product %s. Please define a Bill of Material for this product.') % (procurement.product_id.display_name,)
+                errors.append((procurement, msg))
+
+            print ("\n\n 350.rule._prepare_mo_vals(*procurement, bom): ",rule._prepare_mo_vals(*procurement, bom))
+            productions_values_by_company[procurement.company_id.id].append(rule._prepare_mo_vals(*procurement, bom))
+
+        if errors:
+            raise ProcurementException(errors)
+
+        for company_id, productions_values in productions_values_by_company.items():
+            # create the MO as SUPERUSER because the current user may not have the rights to do it (mto product launched by a sale for example)
+            print ("\n\n 358. productions_values: ",productions_values)
+            productions = self.env['mrp.production'].with_user(SUPERUSER_ID).sudo().with_company(company_id).create(productions_values)
+            self.env['stock.move'].sudo().create(productions._get_moves_raw_values())
+            self.env['stock.move'].sudo().create(productions._get_moves_finished_values())
+            productions._create_workorder()
+            productions.filtered(lambda p: p.move_raw_ids).action_confirm()
+
+            for production in productions:
+                origin_production = production.move_dest_ids and production.move_dest_ids[0].raw_material_production_id or False
+                orderpoint = production.orderpoint_id
+                if orderpoint:
+                    production.message_post_with_view('mail.message_origin_link',
+                                                      values={'self': production, 'origin': orderpoint},
+                                                      subtype_id=self.env.ref('mail.mt_note').id)
+                if origin_production:
+                    production.message_post_with_view('mail.message_origin_link',
+                                                      values={'self': production, 'origin': origin_production},
+                                                      subtype_id=self.env.ref('mail.mt_note').id)
+        return True
+    
+    def _prepare_mo_vals(self, product_id, product_qty, product_uom, location_id, name, origin, company_id, values, bom):
+        date_planned = self._get_date_planned(product_id, company_id, values)
+        date_deadline = values.get('date_deadline') or date_planned + relativedelta(days=company_id.manufacturing_lead) + relativedelta(days=product_id.produce_delay)
+        
+        return {
+            'origin': origin,
+            'product_id': product_id.id,
+            'product_description_variants': values.get('product_description_variants'),
+            'product_qty': product_qty,
+            'product_uom_id': product_uom.id,
+            'location_src_id': self.location_src_id.id or self.picking_type_id.default_location_src_id.id or location_id.id,
+            'location_dest_id': location_id.id,
+            'bom_id': bom.id,
+            'date_deadline': date_deadline,
+            'date_planned_start': date_planned,
+            'procurement_group_id': False,
+            'propagate_cancel': self.propagate_cancel,
+            'orderpoint_id': values.get('orderpoint_id', False) and values.get('orderpoint_id').id,
+            'picking_type_id': self.picking_type_id.id or values['warehouse_id'].manu_type_id.id,
+            'company_id': company_id.id,
+            'move_dest_ids': values.get('move_dest_ids') and [(4, x.id) for x in values['move_dest_ids']] or False,
+            'sale_line_id': values.get('move_dest_ids').sale_line_id.id,
+            'user_id': False,
+        }
+
+class MrpProduction(models.Model):
+    _inherit = 'mrp.production'
+    
+    sale_line_id= fields.Many2one('sale.order.line', string="Sale Order Line")
+    front_size= fields.Char(string='Front Size', compute='_compute_fs', store=True)
+    front_length= fields.Char(string='Front Length', compute='_compute_fs', store=True)
+    width= fields.Char(string='Width', compute='_compute_fs', store=True)
+    back_size= fields.Char(string='Back Size', compute='_compute_fs', store=True)
+    back_length= fields.Char(string='Back Length', compute='_compute_fs', store=True)
+    
+    @api.depends('product_id')
+    def _compute_fs(self):
+        for test in self:
+            longitud = len(str(test.product_id.display_name).split(','))
+            
+            if int(longitud) >= 5:
+                if int(longitud) >= 2:
+                    test.front_size = str(test.product_id.display_name).split(',')[1]
+                else:
+                    test.front_size = 'N/A'
+                if int(longitud) >= 3:
+                    test.front_length = str(test.product_id.display_name).split(',')[2]
+                else:
+                    test.front_length = 'N/A'
+                if int(longitud) >= 4:
+                    test.width = str(test.product_id.display_name).split(',')[3]
+                else:
+                    test.width = 'N/A'
+                if int(longitud) >= 5:
+                    test.back_size = str(test.product_id.display_name).split(',')[4] 
+                else:
+                    test.back_size = 'N/A'
+                if int(longitud) >= 6:
+                    test.back_length = str(test.product_id.display_name).split(',')[5].replace(")"," ")
+                else:
+                    test.back_length = 'N/A'
+            else:
+                test.front_size = 'N/A'
+                test.front_length = 'N/A'
+                test.width = 'N/A'
+                test.back_size = 'N/A'
+                test.back_length = 'N/A'
+    
+    
