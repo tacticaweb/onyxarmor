@@ -54,7 +54,7 @@ class OnyxProductConfigurator(models.TransientModel):
         
         order_line_data = {
                 'order_id': self.sale_order_id.id,
-                'name': product.display_name + ' Agent: ' + self.agent.name,
+                'name': str(product.display_name) + ' Agent: ' + str(self.agent.name),
                 'psnum': psnum,
                 'size': self.sizes.id,
                 'product_id': product.id,
