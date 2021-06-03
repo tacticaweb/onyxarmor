@@ -211,7 +211,7 @@
 													<span t-field="line.product_uom" groups="uom.group_uom"/>
 												</td>
 												<td name="td_priceunit" class="text-right">
-                                    				<span t-esc="price"/>
+                                    				<span t-esc="price_unit"/>
                                 				</td>
 												<td t-if="display_discount" class="text-right" groups="product.group_discount_per_so_line">
                                     				<span t-field="line.discount"/>
@@ -266,7 +266,7 @@
 												<span t-field="line.product_uom_id" groups="uom.group_uom"/>
 											</td>
 											<td t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
-												<span class="text-nowrap" t-field="line.price_unit"/>
+												<span class="text-nowrap" t-esc="price_unit"/>
 											</td>
 											<td t-if="display_discount" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
 												<span class="text-nowrap" t-field="line.discount"/>
