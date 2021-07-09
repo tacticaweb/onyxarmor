@@ -51,6 +51,11 @@ class OnyxProductConfigurator(models.TransientModel):
             psnum = self.psnum
         else:
             psnum = 0
+            
+        if len(str(product.display_name).split("(")) > 2:
+            name = str(product.display_name).split("(")[0] + str(product.display_name).split("(")[1] + ")" 
+        else:
+            name = str(product.display_name)    
         
         order_line_data = {
                 'order_id': self.sale_order_id.id,
