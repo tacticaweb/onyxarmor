@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+    
+    <record model="ir.ui.view" id="size_compute_search_view">
+        <field name="name">res.sizing.search.compute</field>
+        <field name="model">res.sizing</field>
+        <field name="inherit_id" ref="onyx_sizing_v2_custom.size_search_view"/>
+        <field name="arch" type="xml">
+                <xpath expr="//field[@name='agency']" position="after">
+                	<field name="state"/>
+            	</xpath>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="size_tree_compute_view">
+            <field name="name">res.sizing.tree.compute</field>
+            <field name="model">res.sizing</field>
+            <field name="inherit_id" ref="onyx_sizing_v2_custom.size_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='size_back_length']" position="after">
+                    <field name="state"/>
+                </xpath>
+            </field>
+    </record>
+    
+    
+   	<record id="view_measure_compute_form" model="ir.ui.view">
+        <field name="name">measure.view.form.compute</field>
+        <field name="model">res.sizing</field>
+        <field name="inherit_id" ref="onyx_sizing_v2_custom.view_measure_form"/>
+        <field name="arch" type="xml">
+			<xpath expr="//form/header" position="inside">
+				<button name="compute_size" type="object" string="Compute Size"/>
+				<field name="state" widget="statusbar"/>    
+			</xpath>
+		</field>
+   	</record>
+   	
+   	</data>
+</odoo>
