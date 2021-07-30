@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+    
+    <record model="ir.ui.view" id="sale_order_fix_invoice_form_view">
+        <field name="name">sale.order.fix.invoiced.form.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+                <xpath expr="/form/header/field[@name='state']" position="before">
+                	<button name="set_invoiced" type="object" string="Fix Invoice Status" confirm="Are you sure you want to change this sale invoice status to Invoiced? This action can't be undone." groups="base.group_no_one"/>
+            	</xpath>
+        </field>
+    </record>
+    
+    
+   	</data>
+</odoo>
