@@ -220,13 +220,14 @@ class SaleOrderLine(models.Model):
             line_uom = line.product_uom
             quant_uom = line.product_id.uom_id
             product_qty, procurement_uom = line_uom._adjust_uom_quantities(product_qty, quant_uom)
-            line_name = str(line.product_id.name)
+            line_name = str(line.name)
+            print ("\n\n---------------------586. line.name: ", line.name)
+            print ("\n\n---------------------225. line_name: ", line_name)
             procurements.append(self.env['procurement.group'].Procurement(
                 line.product_id, product_qty, procurement_uom,
                 line.order_id.partner_shipping_id.property_stock_customer,
                 line_name, line.order_id.name, line.order_id.company_id, values))
         if procurements:
-            print ("procurements: ", procurements)
             self.env['procurement.group'].run(procurements)
         return True
         
@@ -258,23 +259,20 @@ class ProcurementGroup(models.Model):
                 float_is_zero(procurement.product_qty, precision_rounding=procurement.product_uom.rounding)
             ):
                 continue
-            print ("\n\n 260.procurement: ", procurement)
             rule = self._get_rule(procurement.product_id, procurement.location_id, procurement.values)
             
-            print ("\n\n 263.rule: ", rule)
             if not rule:
                 errors.append(_('No rule has been found to replenish "%s" in "%s".\nVerify the routes configuration on the product.') %
                     (procurement.product_id.display_name, procurement.location_id.display_name))
             else:
                 action = 'pull' if rule.action == 'pull_push' else rule.action
                 actions_to_run[action].append((procurement, rule))
-                print ("\n\n 270.actions_to_run: ", actions_to_run)
+                
 
         if errors:
             raise UserError('\n'.join(errors))
 
         for action, procurements in actions_to_run.items():
-            print ("\n\n 276. procurements: ",procurements)
             if hasattr(self.env['stock.rule'], '_run_%s' % action):
                 try:
                     getattr(self.env['stock.rule'], '_run_%s' % action)(procurements)
@@ -291,6 +289,7 @@ class StockRule(models.Model):
     _inherit = 'stock.rule'
     
     def _get_stock_move_values(self, product_id, product_qty, product_uom, location_id, name, origin, company_id, values):
+        print ("\n\n291.name: ", name)
         group_id = False
         if self.group_propagation_option == 'propagate':
             group_id = values.get('group_id', False) and values['group_id'].id
@@ -337,17 +336,14 @@ class StockRule(models.Model):
     
     @api.model
     def _run_manufacture(self, procurements):
-        print ("\n\n 340._run_manufacture: ",procurements)
         productions_values_by_company = defaultdict(list)
         errors = []
         for procurement, rule in procurements:
-            print ("\n\n 344.procurement.values: ",procurement.values)
             bom = rule._get_matching_bom(procurement.product_id, procurement.company_id, procurement.values)
             if not bom:
                 msg = _('There is no Bill of Material of type manufacture or kit found for the product %s. Please define a Bill of Material for this product.') % (procurement.product_id.display_name,)
                 errors.append((procurement, msg))
 
-            print ("\n\n 350.rule._prepare_mo_vals(*procurement, bom): ",rule._prepare_mo_vals(*procurement, bom))
             productions_values_by_company[procurement.company_id.id].append(rule._prepare_mo_vals(*procurement, bom))
 
         if errors:
@@ -355,7 +351,6 @@ class StockRule(models.Model):
 
         for company_id, productions_values in productions_values_by_company.items():
             # create the MO as SUPERUSER because the current user may not have the rights to do it (mto product launched by a sale for example)
-            print ("\n\n 358. productions_values: ",productions_values)
             productions = self.env['mrp.production'].with_user(SUPERUSER_ID).sudo().with_company(company_id).create(productions_values)
             self.env['stock.move'].sudo().create(productions._get_moves_raw_values())
             self.env['stock.move'].sudo().create(productions._get_moves_finished_values())
