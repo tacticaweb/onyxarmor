@@ -1,5 +1,5 @@
-# Copyright 2015-2021 Soluciones Opensource - Luis Miguel Varón E
-# Copyright 20121 Soluciones Opensource - Luis Miguel Varón E
+# Copyright 2015-2021 Soluciones Opensource - Luis Miguel VarÃ³n E
+# Copyright 20121 Soluciones Opensource - Luis Miguel VarÃ³n E
 # License AGPL-3 - See https://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
@@ -95,7 +95,7 @@ class AccountMove(models.Model):
     
     def action_post(self):
         self._post(soft=False)
-        if self.move_type == 'out_invoice':
+        if self.move_type == 'out_invoice' or self.move_type == 'out_refund':
             self.calculate_commissions()
         return False
         
