@@ -9,7 +9,7 @@
             	<button name="calculate_commissions" string="Calculate Commission" class="oe_highlight" type="object" attrs="{'invisible':['|', ('state', '!=', 'posted'), ('move_type', 'not in', ('out_invoice'))]}"/>
             </xpath>-->
             <field name="to_check" position="after">
-            	<field name="commission_move_id" attrs="{'invisible':[('move_type', 'not in', ('out_invoice'))]}"/>
+            	<field name="commission_move_id" attrs="{'invisible':[('move_type', 'not in', ('out_invoice','out_refund'))]}"/>
             </field>
         </field>
     </record>
