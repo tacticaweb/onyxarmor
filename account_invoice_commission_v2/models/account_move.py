@@ -11,7 +11,7 @@ class AccountMove(models.Model):
     _inherit = "account.move"
     
     commission_move_id = fields.Many2one('account.move', 'Commission Entry', readonly=True, copy=False)
-    reference_partner = fields.Many2one('res.partner', string="Salesman or Reference", domain="[('agent','=',True)]")
+    reference_partner = fields.Many2one('res.partner', string="Salesman or Reference", domain="[('agent','=',True)]", required=True)
     
     def calculate_commissions(self):
         new_lines = []
