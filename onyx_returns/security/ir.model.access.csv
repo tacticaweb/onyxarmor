@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_return_reason_account_move_manager,access_return_reason__account_move_rule_manager,model_return_reason,account.group_account_manager,1,1,1,1
