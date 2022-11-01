@@ -31,6 +31,7 @@
     'depends': [
         'base',
         'account',
+        'sale',
         'sales_team'
     ],
     'data': [
