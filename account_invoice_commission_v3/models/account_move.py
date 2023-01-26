@@ -4,7 +4,6 @@
 
 from odoo import api, fields, models
 
-
 class AccountMove(models.Model):
     """Add some fields related to commissions"""
 
@@ -12,6 +11,7 @@ class AccountMove(models.Model):
     
     commission_move_id = fields.Many2one('account.move', 'Commission Entry', readonly=True, copy=False)
     reference_partner = fields.Many2one('res.partner', string="Salesman or Reference", domain="[('agent','=',True)]")
+    invoice_move_id = fields.Many2one('account.move', 'Invoice Entry', readonly=True, copy=False)
     
     def calculate_commissions(self):
         new_lines = []
@@ -24,6 +24,7 @@ class AccountMove(models.Model):
                     'ref': self.invoice_date.strftime('%B %Y'),
                     'journal_id': commission.journal_id.id,
                     'date': self.invoice_date,
+                    'invoice_move_id': self.id,
                     'move_type':'entry'
                 }
                 if self.move_type == 'out_refund':
@@ -39,7 +40,6 @@ class AccountMove(models.Model):
                         'move_id': self.id,
                         'account_id': account_debit,
                         'partner_id': sale_person.id,
-                        'move_id': self.id,
                         'debit': value_commission,
                         'credit': 0,
                         'date': self.invoice_date,
@@ -51,7 +51,6 @@ class AccountMove(models.Model):
                         'move_id': self.id,
                         'account_id': account_credit,
                         'partner_id': sale_person.id,
-                        'move_id': self.id,
                         'debit': 0,
                         'credit': value_commission,
                         'date': self.invoice_date,
@@ -73,7 +72,6 @@ class AccountMove(models.Model):
                         'move_id': self.id,
                         'account_id': account_debit,
                         'partner_id': sale_person.supervisor_id.id,
-                        'move_id': self.id,
                         'debit': value_commission,
                         'credit': 0,
                         'date': self.invoice_date,
@@ -85,7 +83,6 @@ class AccountMove(models.Model):
                         'move_id': self.id,
                         'account_id': account_credit,
                         'partner_id': sale_person.supervisor_id.id,
-                        'move_id': self.id,
                         'debit': 0,
                         'credit': value_commission,
                         'date': self.invoice_date,
