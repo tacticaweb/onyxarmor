@@ -19,12 +19,13 @@ class AccountMove(models.Model):
             sale_person = self.reference_partner
             if sale_person.commission_id:
                 commission = sale_person.commission_id
+                invoice_move = self.id
                 move_dict = {
                     'narration': 'Commission Invoice %s' %(self.name),
                     'ref': self.invoice_date.strftime('%B %Y'),
                     'journal_id': commission.journal_id.id,
                     'date': self.invoice_date,
-                    'invoice_move_id': self.id,
+                    'invoice_move_id': invoice_move,
                     'move_type':'entry'
                 }
                 if self.move_type == 'out_refund':
@@ -37,7 +38,7 @@ class AccountMove(models.Model):
                 value_commission = self.amount_total * (porcentage / 100)
                 debit = {
                         'name': 'Cost Commission Invoice %s' %(self.name),
-                        'move_id': self.id,
+                        'commission_invoice_id': invoice_move,
                         'account_id': account_debit,
                         'partner_id': sale_person.id,
                         'debit': value_commission,
@@ -48,7 +49,7 @@ class AccountMove(models.Model):
                 new_lines.append(debit)
                 credit = {
                         'name': 'Payable Commission for Invoice %s' %(self.name),
-                        'move_id': self.id,
+                        'commission_invoice_id': invoice_move,
                         'account_id': account_credit,
                         'partner_id': sale_person.id,
                         'debit': 0,
@@ -69,7 +70,7 @@ class AccountMove(models.Model):
                         account_credit = commission.account_credit.id
                     debit = {
                         'name': 'Cost Supervisor Commission Invoice %s' %(self.name),
-                        'move_id': self.id,
+                        'commission_invoice_id': invoice_move,
                         'account_id': account_debit,
                         'partner_id': sale_person.supervisor_id.id,
                         'debit': value_commission,
@@ -80,7 +81,7 @@ class AccountMove(models.Model):
                     new_lines.append(debit)
                     credit = {
                         'name': 'Payable Supervisor Commission for Invoice %s' %(self.name),
-                        'move_id': self.id,
+                        'commission_invoice_id': invoice_move,
                         'account_id': account_credit,
                         'partner_id': sale_person.supervisor_id.id,
                         'debit': 0,
@@ -111,4 +112,11 @@ class AccountMove(models.Model):
             print ("self.reference_partner: ",self.reference_partner)
         return True
         
-        
+
+class AccountMoveLine(models.Model):
+    """Add some fields related to commissions"""
+
+    _inherit = "account.move.line"       
+    
+    commission_invoice_id = fields.Many2one('account.move', 'Invoice Entry', readonly=True, copy=False)
+    

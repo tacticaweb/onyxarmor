@@ -12,9 +12,6 @@
             	<field name="reference_partner" attrs="{'invisible':[('move_type', 'not in', ('out_invoice','out_refund'))]}"/>
             	<field name="commission_move_id" attrs="{'invisible':[('move_type', 'not in', ('out_invoice','out_refund'))]}"/>
             </field>
-            <xpath expr="//field[@name='ref']" position="after">
-            	<field name="invoice_move_id" attrs="{'invisible':[('move_type', 'not in', ('entry'))]}"/>
-            </xpath>
         </field>
     </record>
 </odoo>
