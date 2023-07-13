@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Variants -->
+		<!-- Front Size -->
+        <record id="product_attribute_f" model="product.attribute">
+            <field name="name">Front Size</field>
+            <field name="sequence">10</field>
+            <field name="create_variant">dynamic</field>
+        </record>
+        
+        <record id="product_attribute_value_f_1" model="product.attribute.value">
+            <field name="name">XS</field>
+            <field name="attribute_id" ref="product_attribute_f"/>
+            <field name="sequence">1</field>
+        </record>
+     	
+     	<record id="product_attribute_value_f_2" model="product.attribute.value">
+            <field name="name">S</field>
+            <field name="attribute_id" ref="product_attribute_f"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="product_attribute_value_f_3" model="product.attribute.value">
+            <field name="name">MD</field>
+            <field name="attribute_id" ref="product_attribute_f"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="product_attribute_value_f_4" model="product.attribute.value">
+            <field name="name">LG</field>
+            <field name="attribute_id" ref="product_attribute_f"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <record id="product_attribute_value_f_5" model="product.attribute.value">
+            <field name="name">XL</field>
+            <field name="attribute_id" ref="product_attribute_f"/>
+            <field name="sequence">5</field>
+        </record>
+        
+        <record id="product_attribute_value_f_6" model="product.attribute.value">
+            <field name="name">2XL</field>
+            <field name="attribute_id" ref="product_attribute_f"/>
+            <field name="sequence">6</field>
+        </record>
+        
+        <record id="product_attribute_value_f_7" model="product.attribute.value">
+            <field name="name">3XL</field>
+            <field name="attribute_id" ref="product_attribute_f"/>
+            <field name="sequence">7</field>
+        </record>
+        
+        <record id="product_attribute_value_f_8" model="product.attribute.value">
+            <field name="name">4XL</field>
+            <field name="attribute_id" ref="product_attribute_f"/>
+            <field name="sequence">8</field>
+        </record>
+        
+        <record id="product_attribute_value_f_9" model="product.attribute.value">
+            <field name="name">5XL</field>
+            <field name="attribute_id" ref="product_attribute_f"/>
+            <field name="sequence">9</field>
+        </record>
+        
+        <record id="product_attribute_value_f_10" model="product.attribute.value">
+            <field name="name">6XL</field>
+            <field name="attribute_id" ref="product_attribute_f"/>
+            <field name="sequence">10</field>
+        </record>   
+        
+        <!-- Back Size -->
+        <record id="product_attribute_b" model="product.attribute">
+            <field name="name">Back Size</field>
+            <field name="sequence">20</field>
+            <field name="create_variant">dynamic</field>
+        </record>
+        
+        <record id="product_attribute_value_b_1" model="product.attribute.value">
+            <field name="name">XS</field>
+            <field name="attribute_id" ref="product_attribute_b"/>
+            <field name="sequence">1</field>
+        </record>
+     	
+     	<record id="product_attribute_value_b_2" model="product.attribute.value">
+            <field name="name">S</field>
+            <field name="attribute_id" ref="product_attribute_b"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="product_attribute_value_b_3" model="product.attribute.value">
+            <field name="name">MD</field>
+            <field name="attribute_id" ref="product_attribute_b"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="product_attribute_value_b_4" model="product.attribute.value">
+            <field name="name">LG</field>
+            <field name="attribute_id" ref="product_attribute_b"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <record id="product_attribute_value_b_5" model="product.attribute.value">
+            <field name="name">XL</field>
+            <field name="attribute_id" ref="product_attribute_b"/>
+            <field name="sequence">5</field>
+        </record>
+        
+        <record id="product_attribute_value_b_6" model="product.attribute.value">
+            <field name="name">2XL</field>
+            <field name="attribute_id" ref="product_attribute_b"/>
+            <field name="sequence">6</field>
+        </record>
+        
+        <record id="product_attribute_value_b_7" model="product.attribute.value">
+            <field name="name">3XL</field>
+            <field name="attribute_id" ref="product_attribute_b"/>
+            <field name="sequence">7</field>
+        </record>
+        
+        <record id="product_attribute_value_b_8" model="product.attribute.value">
+            <field name="name">4XL</field>
+            <field name="attribute_id" ref="product_attribute_b"/>
+            <field name="sequence">8</field>
+        </record>
+        
+        <record id="product_attribute_value_b_9" model="product.attribute.value">
+            <field name="name">5XL</field>
+            <field name="attribute_id" ref="product_attribute_b"/>
+            <field name="sequence">9</field>
+        </record>
+        
+        <record id="product_attribute_value_b_10" model="product.attribute.value">
+            <field name="name">6XL</field>
+            <field name="attribute_id" ref="product_attribute_b"/>
+            <field name="sequence">10</field>
+        </record>
+	
+		<!-- Front Length -->
+        <record id="product_attribute_lf" model="product.attribute">
+            <field name="name">Front Length</field>
+            <field name="sequence">30</field>
+            <field name="create_variant">dynamic</field>
+        </record>
+        
+        <record id="product_attribute_value_lf_1" model="product.attribute.value">
+            <field name="name">-2 inch</field>
+            <field name="attribute_id" ref="product_attribute_lf"/>
+            <field name="sequence">1</field>
+        </record>
+     	
+     	<record id="product_attribute_value_lf_2" model="product.attribute.value">
+            <field name="name">-1 inch</field>
+            <field name="attribute_id" ref="product_attribute_lf"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="product_attribute_value_lf_3" model="product.attribute.value">
+            <field name="name">0 inch</field>
+            <field name="attribute_id" ref="product_attribute_lf"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="product_attribute_value_lf_4" model="product.attribute.value">
+            <field name="name">+1 inch</field>
+            <field name="attribute_id" ref="product_attribute_lf"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <record id="product_attribute_value_lf_5" model="product.attribute.value">
+            <field name="name">+2 inch</field>
+            <field name="attribute_id" ref="product_attribute_lf"/>
+            <field name="sequence">5</field>
+        </record>
+        
+        <record id="product_attribute_value_lf_6" model="product.attribute.value">
+            <field name="name">+3 inch</field>
+            <field name="attribute_id" ref="product_attribute_lf"/>
+            <field name="sequence">6</field>
+        </record>
+        
+        <record id="product_attribute_value_lf_7" model="product.attribute.value">
+            <field name="name">+4 inch</field>
+            <field name="attribute_id" ref="product_attribute_lf"/>
+            <field name="sequence">7</field>
+        </record>
+        
+        <record id="product_attribute_value_lf_8" model="product.attribute.value">
+            <field name="name">+5 inch</field>
+            <field name="attribute_id" ref="product_attribute_lf"/>
+            <field name="sequence">8</field>
+        </record>
+        
+        <record id="product_attribute_value_lf_9" model="product.attribute.value">
+            <field name="name">+6 inch</field>
+            <field name="attribute_id" ref="product_attribute_lf"/>
+            <field name="sequence">9</field>
+        </record>
+        
+        <!-- Back Length -->
+        <record id="product_attribute_lb" model="product.attribute">
+            <field name="name">Back Length</field>
+            <field name="sequence">40</field>
+            <field name="create_variant">dynamic</field>
+        </record>
+        
+        <record id="product_attribute_value_lb_1" model="product.attribute.value">
+            <field name="name">-2 inch</field>
+            <field name="attribute_id" ref="product_attribute_lb"/>
+            <field name="sequence">1</field>
+        </record>
+     	
+     	<record id="product_attribute_value_lb_2" model="product.attribute.value">
+            <field name="name">-1 inch</field>
+            <field name="attribute_id" ref="product_attribute_lb"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="product_attribute_value_lb_3" model="product.attribute.value">
+            <field name="name">0 inch</field>
+            <field name="attribute_id" ref="product_attribute_lb"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="product_attribute_value_lb_4" model="product.attribute.value">
+            <field name="name">+1 inch</field>
+            <field name="attribute_id" ref="product_attribute_lb"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <record id="product_attribute_value_lb_5" model="product.attribute.value">
+            <field name="name">+2 inch</field>
+            <field name="attribute_id" ref="product_attribute_lb"/>
+            <field name="sequence">5</field>
+        </record>
+        
+        <record id="product_attribute_value_lb_6" model="product.attribute.value">
+            <field name="name">+3 inch</field>
+            <field name="attribute_id" ref="product_attribute_lb"/>
+            <field name="sequence">6</field>
+        </record>
+        
+        <record id="product_attribute_value_lb_7" model="product.attribute.value">
+            <field name="name">+4 inch</field>
+            <field name="attribute_id" ref="product_attribute_lb"/>
+            <field name="sequence">7</field>
+        </record>
+        
+        <record id="product_attribute_value_lb_8" model="product.attribute.value">
+            <field name="name">+5 inch</field>
+            <field name="attribute_id" ref="product_attribute_lb"/>
+            <field name="sequence">8</field>
+        </record>
+        
+        <record id="product_attribute_value_lb_9" model="product.attribute.value">
+            <field name="name">+6 inch</field>
+            <field name="attribute_id" ref="product_attribute_lb"/>
+            <field name="sequence">9</field>
+        </record>
+        
+        <!-- Width -->
+        <record id="product_attribute_w" model="product.attribute">
+            <field name="name">Width</field>
+            <field name="sequence">50</field>
+            <field name="create_variant">dynamic</field>
+        </record>
+        
+        <record id="product_attribute_value_w_1" model="product.attribute.value">
+            <field name="name">-2 inch</field>
+            <field name="attribute_id" ref="product_attribute_w"/>
+            <field name="sequence">1</field>
+        </record>
+     	
+     	<record id="product_attribute_value_w_2" model="product.attribute.value">
+            <field name="name">-1 inch</field>
+            <field name="attribute_id" ref="product_attribute_w"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="product_attribute_value_w_3" model="product.attribute.value">
+            <field name="name">0 inch</field>
+            <field name="attribute_id" ref="product_attribute_w"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="product_attribute_value_w_4" model="product.attribute.value">
+            <field name="name">+1 inch</field>
+            <field name="attribute_id" ref="product_attribute_w"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <record id="product_attribute_value_w_5" model="product.attribute.value">
+            <field name="name">+2 inch</field>
+            <field name="attribute_id" ref="product_attribute_w"/>
+            <field name="sequence">5</field>
+        </record>
+        
+        <record id="product_attribute_value_w_6" model="product.attribute.value">
+            <field name="name">+3 inch</field>
+            <field name="attribute_id" ref="product_attribute_w"/>
+            <field name="sequence">6</field>
+        </record>
+        
+        <record id="product_attribute_value_w_7" model="product.attribute.value">
+            <field name="name">+4 inch</field>
+            <field name="attribute_id" ref="product_attribute_w"/>
+            <field name="sequence">7</field>
+        </record>
+        
+        <record id="product_attribute_value_w_8" model="product.attribute.value">
+            <field name="name">+5 inch</field>
+            <field name="attribute_id" ref="product_attribute_w"/>
+            <field name="sequence">8</field>
+        </record>
+        
+        <record id="product_attribute_value_w_9" model="product.attribute.value">
+            <field name="name">+6 inch</field>
+            <field name="attribute_id" ref="product_attribute_w"/>
+            <field name="sequence">9</field>
+        </record>
+        
+     </data>
+</odoo>
