@@ -185,7 +185,7 @@ class SaleOrderLine(models.Model):
         res = {
             'display_type': self.display_type,
             'name': self.name,
-            'agent': agent,
+            #'agent': agent,
             'psnum': self.psnum,
             'product_id': self.product_id.id,
             'product_uom_id': self.product_uom.id,
@@ -197,7 +197,6 @@ class SaleOrderLine(models.Model):
             'analytic_tag_ids': [(6, 0, self.analytic_tag_ids.ids)],
             'sale_line_ids': [(4, self.id)],
         }
-        print ("res: ", res)
         if self.display_type:
             res['account_id'] = False
         return res
@@ -452,46 +451,46 @@ class MrpProduction(models.Model):
                 test.back_size = 'N/A'
                 test.back_length = 'N/A'
     
-class ReportInvoiceOnyx(models.AbstractModel):
-    _inherit = 'report.account.report_invoice'
-    
-    @api.model
-    def _get_report_values(self, docids, data=None):
-        docs = self.env['account.move'].browse(docids)
-        
-        qr_code_urls = {}
-        group_lines = {}
-        for invoice in docs:
-            if invoice.display_qr_code:
-                new_code_url = invoice.generate_qr_code()
-                if new_code_url:
-                    qr_code_urls[invoice.id] = new_code_url
-            psnum = 0
-            name = ""
-            quantity = 0
-            price_unit  = 0
-            price_subtotal = 0
-            product = ""
-            template = ""
-            for line in invoice.invoice_line_ids:
-                if psnum == line.psnum:
-                    price_unit += line.price_unit
-                    price_subtotal = quantity * price_unit
-                elif psnum != line.psnum:
-                    if name:
-                        print ("invoice linea: product (%s) template (%s) psnum (%s) quantity (%s) price_unit(%s) price_subtotal(%s)" %(product, template, psnum, quantity, price_unit, price_subtotal))
-                    product = line.product_id.id
-                    template = line.product_id.product_tmpl_id.id
-                    name = line.name
-                    psnum = line.psnum
-                    quantity = line.quantity
-                    price_unit = line.price_unit
-                    price_subtotal = quantity * price_unit
-                elif not line.psnum:
-                     print ("invoice linea: product (%s) template(%s) psnum (%s) quantity (%s) price_unit(%s)" %(line.product_id.id, line.product_id.product_tmpl_id.id, line.psnum, line.quantity, line.price_unit))
-        return {
-            'doc_ids': docids,
-            'doc_model': 'account.move',
-            'docs': docs,
-            'qr_code_urls': qr_code_urls,
-        }   
+# class ReportInvoiceOnyx(models.AbstractModel):
+#     _inherit = 'report.account.report_invoice'
+#     
+#     @api.model
+#     def _get_report_values(self, docids, data=None):
+#         docs = self.env['account.move'].browse(docids)
+#         
+#         qr_code_urls = {}
+#         group_lines = {}
+#         for invoice in docs:
+#             if invoice.display_qr_code:
+#                 new_code_url = invoice.generate_qr_code()
+#                 if new_code_url:
+#                     qr_code_urls[invoice.id] = new_code_url
+#             psnum = 0
+#             name = ""
+#             quantity = 0
+#             price_unit  = 0
+#             price_subtotal = 0
+#             product = ""
+#             template = ""
+#             for line in invoice.invoice_line_ids:
+#                 if psnum == line.psnum:
+#                     price_unit += line.price_unit
+#                     price_subtotal = quantity * price_unit
+#                 elif psnum != line.psnum:
+#                     if name:
+#                         print ("invoice linea: product (%s) template (%s) psnum (%s) quantity (%s) price_unit(%s) price_subtotal(%s)" %(product, template, psnum, quantity, price_unit, price_subtotal))
+#                     product = line.product_id.id
+#                     template = line.product_id.product_tmpl_id.id
+#                     name = line.name
+#                     psnum = line.psnum
+#                     quantity = line.quantity
+#                     price_unit = line.price_unit
+#                     price_subtotal = quantity * price_unit
+#                 elif not line.psnum:
+#                      print ("invoice linea: product (%s) template(%s) psnum (%s) quantity (%s) price_unit(%s)" %(line.product_id.id, line.product_id.product_tmpl_id.id, line.psnum, line.quantity, line.price_unit))
+#         return {
+#             'doc_ids': docids,
+#             'doc_model': 'account.move',
+#             'docs': docs,
+#             'qr_code_urls': qr_code_urls,
+#         }   
