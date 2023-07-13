@@ -126,8 +126,16 @@ class ResSizing(models.Model):
     @api.depends('agency', 'agent', 'date')
     def _compute_name(self):
         for test in self:
-            test.name = str(test.agent.name) + ' ' + str(test.agency.name) + ' ' + str(test.date) 
-            
+            if test.agent:
+                if test.agency:
+                    test.name = str(test.agent.name) + ' ' + str(test.agency.name) + ' ' + str(test.date)
+                else:
+                    test.name = str(test.agent.name) + ' ' + str(test.date)
+            elif test.agency:
+                test.name = str(test.agency.name) + ' ' + str(test.date)
+            else:
+                test.name = str(test.date)    
+                
     def write(self, vals):
         tallaje = ""
         if 'size_front' in vals:
@@ -169,10 +177,15 @@ class SaleOrderLine(models.Model):
         :param qty: float quantity to invoice
         """
         self.ensure_one()
+        if self.agent:
+            agent = self.agent
+        else:
+            agent = False
+        
         res = {
             'display_type': self.display_type,
             'name': self.name,
-            'agent': self.agent,
+            'agent': agent,
             'psnum': self.psnum,
             'product_id': self.product_id.id,
             'product_uom_id': self.product_uom.id,
