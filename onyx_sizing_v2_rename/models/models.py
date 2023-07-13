@@ -94,6 +94,15 @@ class AccountMove(models.Model):
                 price = line.price_unit
                 chaleco = line.psnum
             if line == self.invoice_line_ids[-1] and line.psnum:
+                if line.product_id.product_tmpl_id.categ_id.principal:
+                    atributos = definir_atributos(line)
+                    ppal = str(line.product_id.product_tmpl_id.name) + ' ' + atributos
+                    cantidad = line.quantity
+                else:
+                    name = str(line.product_id.product_tmpl_id.name)
+                    cantidad = 1
+                name = ppal + ' ' + name
+                price += line.price_unit
                 index = find(items,'name',name)
                 if index > -1:
                     items[index]['quantity'] += cantidad 
