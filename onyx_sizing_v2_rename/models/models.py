@@ -93,6 +93,13 @@ class AccountMove(models.Model):
                 name = ppal + name
                 price = line.price_unit
                 chaleco = line.psnum
+            if line == lines[-1]:
+                items.append({
+                        'name': name,
+                        'quantity': cantidad,
+                        'price': round(price,2),
+                        'taxes': line.tax_ids
+                        })
             dictionary = []
         for item in items:
             dictionary.append(item)

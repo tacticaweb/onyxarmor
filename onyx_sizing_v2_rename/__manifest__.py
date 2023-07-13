@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Onyx Armour - Sizing Compute',
-    'description': "Modulo de calculo de tallaje",
+    'name': 'Onyx Armour - Rename',
+    'description': "Modulo Indexado y Agrupacion Lineas Factura",
     'author': "SOLUCIONES OPEN SOURCE",
     'website': "http://www.solucionesos.com",
     'summary': "Onyx - Agent Sizing Compute",
