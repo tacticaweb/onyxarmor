@@ -94,7 +94,11 @@ class AccountMove(models.Model):
                 price = line.price_unit
                 chaleco = line.psnum
             if line == self.invoice_line_ids[-1] and line.psnum:
-                items.append({
+                index = find(items,'name',name)
+                if index > -1:
+                    items[index]['quantity'] += cantidad 
+                else:
+                    items.append({
                         'name': name,
                         'quantity': cantidad,
                         'price': round(price,2),
