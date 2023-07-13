@@ -93,7 +93,7 @@ class AccountMove(models.Model):
                 name = ppal + name
                 price = line.price_unit
                 chaleco = line.psnum
-            if line == lines[-1]:
+            if line == self.invoice_line_ids[-1]:
                 items.append({
                         'name': name,
                         'quantity': cantidad,
