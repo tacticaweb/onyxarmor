@@ -14,8 +14,8 @@
 
     # always loaded
     'data': [
-        #'views/views.xml',
-        #'views/templates.xml',
+        'views/views.xml',
+        'views/templates.xml',
             ],
     'qweb': [
                
