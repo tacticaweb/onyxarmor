@@ -15,7 +15,7 @@
     # always loaded
     'data': [
              'views/views.xml',
-    #         'views/templates.xml',
+             'views/templates.xml',
              'security/ir.model.access.csv',
              'data/variant_data.xml',
             ],
