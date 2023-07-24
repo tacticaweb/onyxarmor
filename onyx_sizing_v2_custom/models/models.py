@@ -177,11 +177,15 @@ class SaleOrderLine(models.Model):
         :param qty: float quantity to invoice
         """
         self.ensure_one()
+        #if self.agent:
+        #    agent = self.agent
+        #else:
+        #    agent = False
         
         res = {
             'display_type': self.display_type,
             'name': self.name,
-            #'agent': agent,
+            'sequence': self.psnum or 0,
             'psnum': self.psnum,
             'product_id': self.product_id.id,
             'product_uom_id': self.product_uom.id,
