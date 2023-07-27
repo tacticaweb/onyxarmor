@@ -90,7 +90,7 @@ class AccountMove(models.Model):
                 else:
                     name = str(line.product_id.product_tmpl_id.name)
                     cantidad = 1
-                name = ppal + name
+                name = ppal + ' ' + name
                 price = line.price_unit
                 chaleco = line.psnum
             if line == self.invoice_line_ids[-1] and line.psnum:
