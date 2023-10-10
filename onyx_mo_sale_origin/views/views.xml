@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+    
+    <record model="ir.ui.view" id="sale_origin_mrp_production_tree_view">
+        <field name="name">sale_origin_mrp_production_tree_view</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+                <field name="origin" position="before">
+                	<field name="sale_origin" optional="show"/>
+            	</field>
+        </field>
+    </record>
+    
+    
+   	</data>
+</odoo>
