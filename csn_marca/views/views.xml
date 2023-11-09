@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record id="view_marca_form_inherit" model="ir.ui.view">
+            <field name="name">marca.view.form.inherit</field>
+            <field name="model">mrp.marca</field>
+            <field name="inherit_id" ref="onyx_mo_marca.view_marca_form" />
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='name']" position="after">
+                        <field name="csn" string="CSN" placeholder="CSN Number..."/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>
