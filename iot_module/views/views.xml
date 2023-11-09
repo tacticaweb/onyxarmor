@@ -1,0 +1,49 @@
+<odoo>
+    <data>      
+        <!-- Define una vista para el formulario de RFID -->
+        <record model="ir.ui.view" id="view_rfid_form">
+            <field name="name">rfid.data.form</field>
+            <field name="model">rfid.data</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="csn"/>
+                            <field name="etapa"/>
+                            <field name="fecha"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Define un menú para acceder a RFID -->
+        <!-- <menuitem id="menu_iotmodule_inventario" name="Internet of Things" parent="mrp.menu_mrp_configuration"/> -->
+        <!-- <menuitem id="menu_iotmodule_info" name="Information" sequence="110" parent="menu_iotmodule_inventario"/> -->
+        <menuitem id="menu_iot_module_root" name="Internet of things" sequence="10" />
+        <menuitem id="menu_iot_module_rfid" name="RFID" parent="menu_iot_module_root" sequence="0" action="action_rfid_tree" />
+
+   
+        
+        <!-- Define una acción para la lista de RFID -->
+        <record model="ir.actions.act_window" id="action_rfid_tree">
+            <field name="name">RFID Data</field>
+            <field name="res_model">rfid.data</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="view_rfid_tree" model="ir.ui.view">
+    <field name="name">rfid.data.tree</field>
+    <field name="model">rfid.data</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="csn"/>
+            <field name="etapa"/>
+            <field name="fecha"/>
+            
+        </tree>
+    </field>
+</record>
+
+
+    </data>
+</odoo>

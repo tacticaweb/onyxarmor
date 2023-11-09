@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <!-- <template id="index">
+        <t t-call="website.layout">
+        <t t-set="title">Sales Orders</t>
+          <div class="oe_structure">
+            <div class="container">
+              <t t-foreach="sales" t-as="sale">
+                <p> <t t-esc="sale.name"/> <t t-esc="sale.partner_id.name"/> </p>
+              </t>
+            </div>
+          </div>
+        </t>
+        </template> -->
+    </data>
+</odoo>
