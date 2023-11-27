@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+    
+    <record model="ir.ui.view" id="replication_mrp_production_tree_view">
+        <field name="name">replication_mrp_production_tree_view</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+                <button name="button_unbuild" position="before">
+                	<button name="replicate_backorders" type="object" string="Replicate"/>
+            	</button>
+        </field>
+    </record>
+    
+    <record id="action_start_workorders" model="ir.actions.server">
+        <field name="name">Start Workorders</field>
+        <field name="model_id" ref="mrp.model_mrp_workorder"/>
+        <field name="binding_model_id" ref="mrp.model_mrp_workorder"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+        for record in records:
+            record.button_start()
+       </field>
+    </record>
+        
+    <record id="action_finish_workorders" model="ir.actions.server">
+        <field name="name">Finish Workorders</field>
+        <field name="model_id" ref="mrp.model_mrp_workorder"/>
+        <field name="binding_model_id" ref="mrp.model_mrp_workorder"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+        for record in records:
+            record.button_finish()
+       </field>
+    </record>
+    
+    
+   	</data>
+</odoo>
