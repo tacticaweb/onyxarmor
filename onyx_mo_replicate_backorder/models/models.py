@@ -35,7 +35,7 @@ class MrpProduction(models.Model):
             new_production = production.copy(default=production._get_production_mo_values(index + 1))
             print("|gpm| new_productiono: ", new_production)
             new_moves_vals = []
-            for move in production.move_raw_ids:
+            for move in production.move_raw_ids | production.move_finished_ids:
                 qty_to_split = move.unit_factor
                 move_vals = move._split_mov(qty_to_split)
                 if move.raw_material_production_id:

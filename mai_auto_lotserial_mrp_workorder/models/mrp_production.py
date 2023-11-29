@@ -54,7 +54,7 @@ class MrpWorkorder(models.Model):
     def button_start(self):
         self.ensure_one()
         res = super(MrpWorkorder,self).button_start()
-        if not self.finished_lot_id:
+        if not self.finished_lot_id and self.product_id.tracking == 'serial':
             lot_serial_type = self.env['ir.config_parameter'].sudo().get_param('mai_auto_lotserial_mrp_workorder.lot_serial_method')
             if lot_serial_type == 'production_date':
                 date = self.production_date.strftime('%Y%m%d')
@@ -77,7 +77,7 @@ class MrpWorkorder(models.Model):
 
     # @api.multi
     def record_production(self):
-        if not self.finished_lot_id:
+        if not self.finished_lot_id and self.product_id.tracking == 'serial':
             lot_serial_type = self.env['ir.config_parameter'].sudo().get_param('mai_auto_lotserial_mrp_workorder.lot_serial_method')
             if lot_serial_type == 'production_date':
                 date = self.production_date.strftime('%Y%m%d')

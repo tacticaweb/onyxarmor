@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_marca,onyx_mo_marca.mrp_marca,onyx_mo_marca.model_mrp_marca,,1,1,1,1
+access_mrp_marca_line,onyx_mo_marca.mrp_marca_line,onyx_mo_marca.model_mrp_marca_line,,1,1,1,1
+access_mrp_marca_line_consumption,onyx_mo_marca.mrp_marca_line_consumption,onyx_mo_marca.model_mrp_marca_line_consumption,,1,1,1,1
