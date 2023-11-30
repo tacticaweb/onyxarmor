@@ -79,7 +79,7 @@ class MrpMarca(models.Model):
                     self.env['stock.move.line'].create(vals)
                     total_consumption = real_consumption * mo.product_qty
                     #move.write({'product_uom_qty': total_consumption})
-#        return self.write({'state': 'finish'})
+        return self.write({'state': 'finish'})
         return False
 
     
