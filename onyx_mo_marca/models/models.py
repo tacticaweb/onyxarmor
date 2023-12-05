@@ -46,41 +46,38 @@ class MrpMarca(models.Model):
             print ("|amrc|line: ", line)
             product = line.product_id
             print ("|amrc|product: ", product, " " ,product.name)
-            unit = line.real_consumption / line.manufacture_qty 
             lotes = line.consumption_ids 
-            print ("|amrc|len(lotes): ", len(lotes))
             for consumption in lotes:
                 for mo in self.mo_ids:
-                    if len(lotes) == 1:
-                        print ("|amrc|unit: ", unit)
-                        print ("|amrc|mo.product_qty: ", mo.product_qty)
-                        real_consumption = unit * mo.product_qty
-                    elif len(lotes) > 1:
-                        print ("|amrc|unit: ", unit)
-                        print ("|amrc|line.real_consumption: ", line.real_consumption)
-                        print ("|amrc|consumption.product_qty: ", consumption.product_qty)
-                        factor = consumption.product_qty / line.real_consumption
-                        print ("|amrc|factor: ", factor)
-                        real_consumption = unit * factor
-                        print ("|amrc|real_consumption: ", real_consumption)
-                    domain = [('raw_material_production_id', '=', mo.id),('product_id', '=', product.id)]
-                    move = self.env['stock.move'].search(domain)
-                    vals={
-                        'product_id': product.id,
-                        'location_id': move.location_id.id,
-                        'location_dest_id': move.location_dest_id.id,
-                        'product_uom_id': move.product_uom.id,
-                        'picking_id': move.picking_id.id,
-                        'move_id': move.id,
-                        'qty_done':real_consumption,
-                        }
-                    if consumption.lot_id:
-                        vals['lot_id'] = consumption.lot_id.id 
-                    self.env['stock.move.line'].create(vals)
-                    total_consumption = real_consumption * mo.product_qty
+                    domain = [('bom_id', '=', mo.bom_id.id),('product_id', '=', product.id)]
+                    on_bom = self.env['mrp.bom.line'].search(domain)
+                    print ("|amrc|mo.name: ", mo.product_id.name)
+                    print ("|amrc|on_bom: ", on_bom)
+                    if on_bom:
+                        factor = on_bom.product_qty / line.planned_consumption
+                        if len(lotes) == 1:
+                            real_consumption = consumption.product_qty * factor
+                        elif len(lotes) > 1:
+                            real_consumption = consumption.product_qty * factor
+                        domain = [('raw_material_production_id', '=', mo.id),('product_id', '=', product.id)]
+                        move = self.env['stock.move'].search(domain)
+                        if move:
+                            vals={
+                                'product_id': product.id,
+                                'location_id': move.location_id.id,
+                                'location_dest_id': move.location_dest_id.id,
+                                'product_uom_id': move.product_uom.id,
+                                'picking_id': move.picking_id.id,
+                                'move_id': move.id,
+                                'qty_done':real_consumption,
+                                }
+                            if consumption.lot_id:
+                                vals['lot_id'] = consumption.lot_id.id 
+                            self.env['stock.move.line'].create(vals)
+#                        total_consumption = real_consumption * mo.product_qty
                     #move.write({'product_uom_qty': total_consumption})
         return self.write({'state': 'finish'})
-        return False
+#        return False
 
     
 class MrpMarcaLine(models.Model):
