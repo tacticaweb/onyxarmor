@@ -59,7 +59,10 @@
 			                		<field name="product_id" readonly="1"/>
 			                		<field name="manufacture_qty" readonly="1"/>
 			                		<field name="planned_consumption" readonly="1"/>
-			                		<field name="real_consumption" readonly="1"/>	
+			                		<field name="planned_product_uom" readonly="1"/>
+			                		<field name="real_consumption" readonly="1"/>
+			                		<field name="product_uom"/>
+			                		<field name="product_uom_category_id" invisible="True"/>	
 			                		<button name="action_show_details" type="object" icon="fa-list"/>
 			                	</tree>
 			                </field>
@@ -115,6 +118,8 @@
 			        	<field name="manufacture_qty"/>
 			        	<field name="planned_consumption"/>
 			        	<field name="real_consumption"/>
+			        	<field name="product_uom"/>
+			        	<field name="product_uom_category_id" invisible="True"/>
 			        </group>
 			        <notebook>
 			            <page string="Line Consumptions" name="lc">

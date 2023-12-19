@@ -23,12 +23,20 @@ class MrpMarca(models.Model):
         return self.write({'state': 'closed'})
     
     def action_marca_read_consumption(self):
+        print("|amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc|")
         for mo in self.mo_ids:
             for mp in mo.move_raw_ids:
+                print("|amrc|product_id: ",mp.product_id.name)
                 domain = [('product_id', '=', mp.product_id.id),('marca_id', '=', self.id)]
                 line = self.line_ids.search(domain)
                 if line:
-                    line.planned_consumption += mp.product_uom_qty
+                    if mp.product_uom.id != line.product_uom.id:
+                        qty = mp.product_uom._compute_quantity(mp.product_uom_qty, line.product_uom)
+                        print ("|amrc|if mp.product_uom.id != line.product_uom.id: ", qty)
+                    else:
+                        qty = mp.product_uom_qty
+                        print ("|amrc|else mp.product_uom.id != line.product_uom.id: ", qty)
+                    line.planned_consumption += qty
                     line.manufacture_qty += mo.product_qty
                 else:
                     dict = {
@@ -36,12 +44,14 @@ class MrpMarca(models.Model):
                         'manufacture_qty': mo.product_qty,
                         'planned_consumption': mp.product_uom_qty,
                         'marca_id': self.id,
+                        'planned_product_uom': mp.product_uom.id,
+                        'product_uom': mp.product_uom.id,
                     }
                     self.line_ids.create(dict)
         return self.write({'state': 'processed'})
     
     def action_marca_real_consumption(self):
-        print("|amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc||amrc|")
+        
         for line in self.line_ids:
             print ("|amrc|line: ", line)
             product = line.product_id
@@ -56,9 +66,9 @@ class MrpMarca(models.Model):
                     if on_bom:
                         factor = on_bom.product_qty / line.planned_consumption
                         if len(lotes) == 1:
-                            real_consumption = consumption.product_qty * factor
+                            real_consumption = consumption.product_qty * factor * mo.product_qty
                         elif len(lotes) > 1:
-                            real_consumption = consumption.product_qty * factor
+                            real_consumption = consumption.product_qty * factor * mo.product_qty
                         domain = [('raw_material_production_id', '=', mo.id),('product_id', '=', product.id)]
                         move = self.env['stock.move'].search(domain)
                         if move:
@@ -90,7 +100,10 @@ class MrpMarcaLine(models.Model):
         readonly=True, required=True,)
     manufacture_qty = fields.Float('Number of Finished Product to be Produced with this Raw Item')
     planned_consumption = fields.Float('Consumption Planned')
+    planned_product_uom = fields.Many2one('uom.uom', 'Unit of Measure', required=True, domain="[('category_id', '=', product_uom_category_id)]")
     real_consumption = fields.Float('Real Consumption', compute='action_marca_real_consumption')
+    product_uom = fields.Many2one('uom.uom', 'Unit of Measure', required=True, domain="[('category_id', '=', product_uom_category_id)]")
+    product_uom_category_id = fields.Many2one(related='product_id.uom_id.category_id')
     
     def action_marca_real_consumption(self):
         for reg in self:
