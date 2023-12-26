@@ -168,7 +168,7 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     
     size= fields.Many2one('res.sizing', string="Sizing")
-    psnum = fields.Char(string='PSNUM')
+    psnum = fields.Integer(string='PSNUM')
         
     def _prepare_invoice_line(self, **optional_values):
         """
@@ -248,7 +248,7 @@ class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
     
     #agent = fields.Many2one('res.partner', string="Officer", domain="[('is_agency','=',False)]")
-    psnum = fields.Char(string='PSNUM')
+    psnum = fields.Integer(string='PSNUM')
         
 class ProcurementGroup(models.Model):
     _inherit = 'procurement.group'
