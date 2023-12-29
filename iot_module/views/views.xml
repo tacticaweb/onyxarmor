@@ -16,6 +16,25 @@
                 </form>
             </field>
         </record>
+
+        <!-- Define una acción para la lista de RFID -->
+        <record model="ir.actions.act_window" id="action_rfid_tree">
+            <field name="name">RFID Data</field>
+            <field name="res_model">rfid.data</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="view_rfid_tree" model="ir.ui.view">
+            <field name="name">rfid.data.tree</field>
+            <field name="model">rfid.data</field>
+                <field name="arch" type="xml">
+                    <tree>
+                        <field name="csn"/>
+                        <field name="etapa"/>
+                        <field name="fecha"/>
+                        
+                    </tree>
+                </field>
+            </record>
         
         <!-- Define un menú para acceder a RFID -->
         <!-- <menuitem id="menu_iotmodule_inventario" name="Internet of Things" parent="mrp.menu_mrp_configuration"/> -->
@@ -25,24 +44,7 @@
 
    
         
-        <!-- Define una acción para la lista de RFID -->
-        <record model="ir.actions.act_window" id="action_rfid_tree">
-            <field name="name">RFID Data</field>
-            <field name="res_model">rfid.data</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-        <record id="view_rfid_tree" model="ir.ui.view">
-    <field name="name">rfid.data.tree</field>
-    <field name="model">rfid.data</field>
-    <field name="arch" type="xml">
-        <tree>
-            <field name="csn"/>
-            <field name="etapa"/>
-            <field name="fecha"/>
-            
-        </tree>
-    </field>
-</record>
+        
 
 
     </data>

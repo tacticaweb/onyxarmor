@@ -28,28 +28,37 @@ from odoo.exceptions import UserError
 
 class TacticaPrototipoController(http.Controller):
     @http.route('/iot/api', type='json', auth="public", methods=['POST'], csrf=False)
-    def receive_data(self, **post_data):
+    def receive_data(self):
         try:
-            print("Veré cómo recibo los datos", post_data)
+            # Obtener datos JSON directamente de la solicitud
+            json_data = request.jsonrequest
 
-            received_csn = post_data.get('csn')
-            received_etapa = post_data.get('etapa')
+            print("Veré Recibiendo datos desde Postman:", json_data)
+
+            received_csn = json_data.get('csn')
+            received_etapa = json_data.get('etapa')
+
+            print(f"Veré CSN recibido: {received_csn}")
+            print(f"Veré Etapa recibida: {received_etapa}")
 
             # Validación de datos
             if not received_csn or not received_etapa:
-                raise UserError("Los campos 'csn' y 'etapa' son obligatorios.")
+                raise UserError("Los campos 'csn' y 'etapa' son estrictamente obligatorios.")
 
             RFIDModel = request.env['rfid.data']
             new_rfid_data = RFIDModel.create({
                 'csn': received_csn,
                 'etapa': received_etapa,
-                
             })
+
+            print("Veré Registro creado exitosamente:", new_rfid_data)
 
             return {'status': 'OK', 'message': 'Data received Ok.'}
         except UserError as e:
+            print(f"Veré Error de usuario: {e}")
             return {'status': 'Error', 'message': str(e)}
         except Exception as e:
+            print(f"Veré Error inesperado: {e}")
             return {'status': 'Error', 'message': 'Se produjo un error inesperado.'}
 
 
