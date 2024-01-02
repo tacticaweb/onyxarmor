@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_meprecol_laboratorio_meprecol_laboratorio,meprecol_laboratorio.meprecol_laboratorio,model_meprecol_laboratorio_meprecol_laboratorio,,1,0,0,0
