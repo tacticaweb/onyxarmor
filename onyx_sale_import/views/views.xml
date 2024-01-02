@@ -12,6 +12,7 @@
           <button name="set_draft" type="object" string="Draft" id="set_draft"/>
           <button name="validate_info" type="object" states="readed" string="Validate" id="validate_info"/>
           <button name="read_file" type="object" states="draft" string="Read File" id="read_file"/>
+          <button name="process_lines" type="object" states="validated" string="Process Lines" id="process_lines"/>
           <field name="state" widget="statusbar"/>
          </header>
         <sheet>
@@ -40,6 +41,7 @@
                 	<field name="carrier"/>
                 	<field name="product_id"/>
                 	<field name="sale_order_line"/>
+                	<field name="state"/>
                 </tree>
                 <form string="Lineas">
                 	<group>
@@ -51,6 +53,7 @@
                 		<field name="carrier"/>
 	                	<field name="product_id"/>
 	                	<field name="sale_order_line"/>
+	                	<field name="state"/>
                 	</group>
                 </form>
           </field>
@@ -74,6 +77,7 @@
             <field name="carrier"/>
 	    	<field name="product_id"/>
 	    	<field name="sale_order_line"/>
+	    	<field name="state"/>
         </tree>
       </field>
     </record>
@@ -109,6 +113,7 @@
         <group>
          	 <field name="sale_order_line"/>
          	 <field name="import_id"/>
+         	 <field name="state"/>
         </group>
          </sheet>
         </form>

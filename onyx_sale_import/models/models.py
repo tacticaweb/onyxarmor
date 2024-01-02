@@ -95,56 +95,65 @@ class ImportSale(models.Model):
             for attribute_line in line.product_template_id.attribute_line_ids.attribute_id:
                 if attribute_line.name == "Front Size":
                     for attribute_value in attribute_line.value_ids:
-                        if attribute_value.name == self.sizes.size_front:
+                        if attribute_value.name == line.sizing_id.size_front:
                             variant.append(attribute_value.id)
                             
                 elif attribute_line.name == "Back Size":
                     for attribute_value in attribute_line.value_ids:
-                        if attribute_value.name == self.sizes.size_back:
+                        if attribute_value.name == line.sizing_id.size_back:
                             variant.append(attribute_value.id)
                             
                 elif attribute_line.name == "Width":
                     for attribute_value in attribute_line.value_ids:
-                        if attribute_value.name == self.sizes.size_width:
+                        if attribute_value.name == line.sizing_id.size_width:
                             variant.append(attribute_value.id)
                             
                 elif attribute_line.name == "Front Length":
                     for attribute_value in attribute_line.value_ids:
-                        if attribute_value.name == self.sizes.size_front_length:
+                        if attribute_value.name == line.sizing_id.size_front_length:
                             variant.append(attribute_value.id)
                             
                 elif attribute_line.name == "Back Length":
                     for attribute_value in attribute_line.value_ids:
-                        if attribute_value.name == self.sizes.size_back_length:
+                        if attribute_value.name == line.sizing_id.size_back_length:
                             variant.append(attribute_value.id)
-            combination = self.env['product.template.attribute.value'].search([('product_attribute_value_id','in',variant),('product_tmpl_id','=',self.product_tmpl_id.id)])    
-            combination = combination | self.product_attribute_ids
-            product = self.product_tmpl_id._create_product_variant(combination)
-            print ("product: ",product)
-            if self.psnum:
-                psnum = self.psnum
-            else:
-                psnum = 0
-                
-            if len(str(product.display_name).split("(")) > 2:
-                name = str(product.display_name).split("(")[0] + str(product.display_name).split("(")[1] + ")" 
-            else:
-                name = str(product.display_name)    
+                elif attribute_line.name == "Color":
+                    for attribute_value in attribute_line.value_ids:
+                        if attribute_value.name == line.color:
+                            variant.append(attribute_value.id)
+                elif attribute_line.name == "Carrier":
+                    for attribute_value in attribute_line.value_ids:
+                        if attribute_value.name == line.carrier:
+                            variant.append(attribute_value.id)
             
-            order_line_data = {
+            combination = self.env['product.template.attribute.value'].search([('product_attribute_value_id','in',variant),('product_tmpl_id','=',line.product_template_id.id)])    
+            
+            product = line.product_template_id._create_product_variant(combination)
+            if product:
+                line.write({'state': 'ok'})
+            else:
+                line.write({'state': 'error'})
+            line.write({'product_id': product.id})
+        return self.write({'state': 'validated'})
+    
+    def process_lines(self):
+        print ("|pl|")
+        for line in self.import_sale_lines:
+            print ("|pl|line.state: %s line.sale_order_line: %s" %(line.state,line.sale_order_line))
+            if line.state == 'ok' and not line.sale_order_line:
+                order_line_data = {
                     'order_id': self.sale_order_id.id,
-                    'name': str(product.display_name) + ' Agent: ' + str(self.agent.name),
-                    'psnum': psnum,
-                    'size': self.sizes.id,
-                    'product_id': product.id,
-                    'price_unit': product.lst_price,
-                    'product_uom_qty': 1
+                    'name': str(line.product_id.display_name) + ' Agent: ' + str(line.sizing_id.agent.name),
+                    'psnum': line.psnum,
+                    'size': line.sizing_id.id,
+                    'product_id': line.product_id.id,
+                    'price_unit': line.product_id.lst_price,
+                    'product_uom_qty': line.quantity
                 }
-            
-            print ("order_line_data: ",order_line_data)
-            order_line = self.env['sale.order.line'].create(order_line_data)
-    
-    
+                print ("order_line_data: ",order_line_data)
+                order_line = self.env['sale.order.line'].create(order_line_data)
+                line.write({'sale_order_line': order_line.id,'state': 'imported'})
+        #return self.write({'state': 'complete'})
     
     def set_draft(self):
         return self.write({'state': 'draft'})
@@ -161,6 +170,12 @@ class ImportSaleLine(models.Model):
     carrier = fields.Char(string='Carrier')
     product_id = fields.Many2one('product.product', string='Product')
     sale_order_line = fields.Many2one('sale.order.line', string='Sale Order Line')
+    state = fields.Selection([
+        ('pend', 'Pending'),
+        ('ok', 'Ready'),
+        ('error', 'Error'),
+        ('imported', 'Imported'),
+    ], string='State', index=True, readonly=True, copy=False, default='pend')
     
     import_id = fields.Many2one('import.sale', string='Import Sale Order')
     
