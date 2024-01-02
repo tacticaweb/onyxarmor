@@ -10,7 +10,6 @@
        <form>
          <header>
           <button name="set_draft" type="object" string="Draft" id="set_draft"/>
-          <button name="process_lines" type="object" states="validated" string="Process Lines" id="process_lines"/>
           <button name="validate_info" type="object" states="readed" string="Validate" id="validate_info"/>
           <button name="read_file" type="object" states="draft" string="Read File" id="read_file"/>
           <field name="state" widget="statusbar"/>
