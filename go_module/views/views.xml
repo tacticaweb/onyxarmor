@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+    
+    <record model="ir.ui.view" id="go_search_view">
+        <field name="name">mrp.go.search</field>
+        <field name="model">mrp.go</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="create_date"/>
+            </search>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="go_tree_view">
+            <field name="name">mrp.go.tree</field>
+            <field name="model">mrp.go</field>
+            <field name="arch" type="xml">
+                <tree string="Go Tree">
+                    <field name="name"/>
+                	<field name="create_date"/>
+                </tree>
+            </field>
+    </record>
+    
+    
+   	<record id="view_go_form" model="ir.ui.view">
+        <field name="name">go.view.form</field>
+        <field name="model">mrp.go</field>
+        <field name="arch" type="xml">
+			<form>
+			    <header>
+			    	<button name="action_go_close" type="object" string="Close Go" states="draft"/>
+			    	<button name="action_go_read_consuption" type="object" string="Process MO" states="closed"/>
+			    	<button name="action_go_real_consuption" type="object" string="Record Real Consumption" states="processed"/>
+			    	<field name="state" widget="statusbar"/>
+			    </header>
+			    <sheet string="Measurements">
+			        <div class="oe_title">
+			            <h1>
+							<field name="name" required="1" placeholder="Name..."/>
+			            </h1>
+			        </div>
+			        <notebook>
+			            <page string="Manufacturing Orders" name="mo">
+			                <field name="mo_ids" widget="many2many">
+			                	<tree>
+			                		<field name="product_id"/>
+			                		<field name="product_qty"/>
+			                		<field name="date_planned_start"/>
+			                		<field name="state"/>
+			                	</tree>
+			                </field>
+			            </page>
+			            <page string="Detalle" name="detail">
+			                <field name="line_ids">
+			                	<tree  editable="top" create="0">
+			                		<field name="product_id" readonly="1"/>
+			                		<field name="manufacture_qty" readonly="1"/>
+			                		<field name="planned_consume" readonly="1"/>
+			                		<field name="real_consume"/>	
+			                	</tree>
+			                </field>
+			            </page>
+			          </notebook>
+			    </sheet>
+			    <div class="oe_chatter" name="oe_chatter">
+			        <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+			    </div>
+			</form>
+         </field>
+   	</record>
+   	
+   	<record model="ir.actions.act_window" id="mrp_go_action">
+            <field name="name">Go</field>
+            <field name="res_model">mrp.go</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create a Go
+                </p>
+            </field>
+    </record>
+    
+    <menuitem id="go_menu" name="Go" parent="mrp.menu_mrp_root"/>
+        
+    <menuitem id="go_action" name="Gos" parent="go_menu" action="mrp_go_action"/>
+    
+    <record id="confirm_mo_server_action" model="ir.actions.server">
+        <field name="name">Mrp: Confirm Production Orders</field>
+        <field name="model_id" ref="mrp.model_mrp_production"/>
+        <field name="binding_model_id" ref="mrp.model_mrp_production"/>
+        <field name="binding_view_types">list</field>
+        <field name="groups_id" eval="[(4, ref('mrp.group_mrp_routings'))]"/>
+        <field name="state">code</field>
+        <field name="code">records.action_confirm()</field>
+    </record>
+    
+    
+   	</data>
+</odoo>
