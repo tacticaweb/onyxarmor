@@ -16,12 +16,12 @@
                                     <li>
                                         <strong>Product: </strong><span t-esc="line.product_id.name"/><br/>
                                         <strong>Manufacture Qty: </strong><span t-esc="line.manufacture_qty"/><br/>
-                                        <!-- Agrega más campos según tus necesidades -->
+                                        
                                     </li>
                                 </t>
                             </ul>
                         </t>
-                        <!-- ... -->
+                       
                     </div>
                 </t>
             </t>
