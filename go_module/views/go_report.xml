@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <template id="report_mrp_go">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <h1><t t-esc="o.name"/></h1>
+                        <p>State: <t t-esc="o.state"/></p>
+                        <p>Create Date: <t t-esc="o.create_date"/></p>
+                       
+                        <t t-if="o.line_ids">
+                            <h2>Go Lines:</h2>
+                            <ul>
+                                <t t-foreach="o.line_ids" t-as="line">
+                                    <li>
+                                        <strong>Product: </strong><span t-esc="line.product_id.name"/><br/>
+                                        <strong>Manufacture Qty: </strong><span t-esc="line.manufacture_qty"/><br/>
+                                        <!-- Agrega más campos según tus necesidades -->
+                                    </li>
+                                </t>
+                            </ul>
+                        </t>
+                        <!-- ... -->
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

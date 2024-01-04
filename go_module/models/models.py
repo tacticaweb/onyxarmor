@@ -20,6 +20,14 @@ class MrpGo(models.Model):
         string='State', required=True,
         default='draft')
     
+    def print_go_report(self):
+        data = {
+            'doc_ids': self.ids,
+            'doc_model': 'mrp.go',
+            'docs': self,
+        }
+        return self.env.ref('go_module.report_mrp_go').report_action(self, data=data)
+    
     def action_go_close(self):
         return self.write({'state': 'closed'})
     
@@ -32,13 +40,13 @@ class MrpGo(models.Model):
                     line.planned_consume += mp.product_uom_qty
                     line.manufacture_qty += mo.product_qty
                 else:
-                    dict = {
+                    values = {
                         'product_id': mp.product_id.id,
                         'manufacture_qty': mo.product_qty,
                         'planned_consume': mp.product_uom_qty,
                         'go_id': self.id,
                     }
-                    self.line_ids.create(dict)
+                    self.line_ids.create(values)
         return self.write({'state': 'processed'})
     
     def action_go_real_consuption(self):

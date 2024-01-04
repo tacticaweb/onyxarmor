@@ -31,6 +31,7 @@
         <field name="arch" type="xml">
 			<form>
 			    <header>
+                    <button string="Generar Reporte" type="object" name="print_go_report" class="oe_highlight"/>    
 			    	<button name="action_go_close" type="object" string="Close Go" states="draft"/>
 			    	<button name="action_go_read_consuption" type="object" string="Process MO" states="closed"/>
 			    	<button name="action_go_real_consuption" type="object" string="Record Real Consumption" states="processed"/>
@@ -83,6 +84,15 @@
                 </p>
             </field>
     </record>
+
+    <record id="report_mrp_go" model="ir.actions.report">
+            <field name="name">Reporte de Go</field>
+            <field name="model">mrp.go</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">go_module.report_mrp_go_template</field>
+            <field name="print_report_name">Reporte de Go</field>
+            <field name="report_file">go_module.report_mrp_go_template</field>
+        </record>
     
     <menuitem id="go_menu" name="Go" parent="mrp.menu_mrp_root"/>
         
