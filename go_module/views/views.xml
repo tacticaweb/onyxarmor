@@ -86,13 +86,14 @@
     </record>
 
     <record id="report_mrp_go" model="ir.actions.report">
-            <field name="name">Reporte de Go</field>
-            <field name="model">mrp.go</field>
-            <field name="report_type">qweb-pdf</field>
-            <field name="report_name">go_module.report_mrp_go_template</field>
-            <field name="print_report_name">Reporte de Go</field>
-            <field name="report_file">go_module.report_mrp_go_template</field>
-        </record>
+        <field name="name">Reporte de Go</field>
+        <field name="model">mrp.go</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">report_mrp_go</field>
+        <field name="print_report_name">Reporte de Go</field>
+        <field name="report_file">report_mrp_go</field>
+    </record>
+
     
     <menuitem id="go_menu" name="Go" parent="mrp.menu_mrp_root"/>
         
