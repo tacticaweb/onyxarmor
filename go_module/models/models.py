@@ -26,7 +26,10 @@ class MrpGo(models.Model):
             'doc_model': 'mrp.go',
             'docs': self,
         }
-        return self.env.ref('report_mrp_go').report_action(self, data=data)
+        # Utilizando el nombre completo del External Identifier con el nombre del módulo
+        report = self.env.ref('go_module.report_mrp_go')
+        return report.report_action(self, data=data)
+
     
     def action_go_close(self):
         return self.write({'state': 'closed'})
