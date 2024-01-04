@@ -26,7 +26,7 @@ class MrpGo(models.Model):
             'doc_model': 'mrp.go',
             'docs': self,
         }
-        return self.env['ir.actions.report'].search([('report_name', '=', 'report_mrp_go')], limit=1).report_action(self, data=data)
+        return self.env.ref('report_mrp_go').report_action(self, data=data)
     
     def action_go_close(self):
         return self.write({'state': 'closed'})
