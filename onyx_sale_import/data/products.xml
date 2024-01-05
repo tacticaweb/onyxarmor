@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+    
+    <record id="seq_import_sale" model="ir.sequence">
+            <field name="name">import_sale_sequencer</field>
+            <field name="code">import.sale</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+    </record>
+    
+    </data>
+</odoo>
+    
