@@ -49,9 +49,11 @@ class TacticaPrototipoController(http.Controller):
                     if isinstance(data, dict):
                         received_csn = data.get('csn')
                         received_etapa = data.get('etapa')
+                        received_mo = data.get('mo', "")  # Agrega el campo "mo" con un valor predeterminado si no está presente
 
                         _logger.info("CSN received: %s", received_csn)
                         _logger.info("Received stage: %s", received_etapa)
+                        _logger.info("Received MO: %s", received_mo)
 
                         # Validación de datos
                         _logger.info("Validating data for item at index %s", index)
@@ -64,16 +66,18 @@ class TacticaPrototipoController(http.Controller):
                         _logger.info("Search results: %s", existing_rfid_data)
 
                         if existing_rfid_data:
-                            # If the CSN already exists, update the existing record
+                            # Si el CSN ya existe, actualiza el registro existente
                             existing_rfid_data.write({
                                 'etapa': received_etapa,
+                                'mo': received_mo,
                             })
                             _logger.info("Record updated successfully: %s", existing_rfid_data)
                         else:
-                            # If the CSN doesn't exist, create a new record
+                            # Si el CSN no existe, crea un nuevo registro
                             new_rfid_data = RFIDModel.create({
                                 'csn': received_csn,
                                 'etapa': received_etapa,
+                                'mo': received_mo,
                             })
 
                             _logger.info("Record created successfully: %s", new_rfid_data)
@@ -87,6 +91,7 @@ class TacticaPrototipoController(http.Controller):
                 raise UserError("Invalid data format. Expected a list of items.")
         else:
             raise UserError("Invalid data format. 'json_data_list' key not found.")
+
 
 
 

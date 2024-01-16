@@ -6,5 +6,6 @@ class RFID(models.Model):
 
     csn = fields.Char(string='CSN', required=True)
     etapa = fields.Char(string='ETAPA', required=True)
+    mo = fields.Char(string='ORDEN DE MANUFACTURA', required=True)
     fecha = fields.Datetime(string='FECHA', default=lambda self: fields.Datetime.now(), required=True)
 

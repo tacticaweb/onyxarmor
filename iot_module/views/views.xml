@@ -10,6 +10,7 @@
                         <group>
                             <field name="csn"/>
                             <field name="etapa"/>
+                            <field name="mo"/>
                             <field name="fecha"/>
                         </group>
                     </sheet>
@@ -30,6 +31,7 @@
                     <tree>
                         <field name="csn"/>
                         <field name="etapa"/>
+                        <field name="mo"/>
                         <field name="fecha"/>
                         
                     </tree>
