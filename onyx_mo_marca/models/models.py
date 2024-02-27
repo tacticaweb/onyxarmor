@@ -84,8 +84,8 @@ class MrpMarca(models.Model):
                             if consumption.lot_id:
                                 vals['lot_id'] = consumption.lot_id.id 
                             self.env['stock.move.line'].create(vals)
-#                        total_consumption = real_consumption * mo.product_qty
-                    #move.write({'product_uom_qty': total_consumption})
+                    self.env.cr.commit()
+                self.env.cr.commit()
         return self.write({'state': 'finish'})
 #        return False
 
